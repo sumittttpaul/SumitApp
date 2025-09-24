@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "private": true,
+  "strict": true,
+  "scripts": {
+    "dev": "tsx watch src/dev-server.ts",
+    "build": "tsc",
+    "lint": "eslint . --ignore-pattern eslint.config.mjs --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "check-types": "tsc --noEmit",
+    "clean": "rimraf --glob .turbo dist node_modules tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@packages/utils": "workspace:^",
+    "@packages/validations": "workspace:^",
+    "@vercel/node": "^5.3.23",
+    "axios": "^1.11.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "vercel": "^47.1.3"
+  },
+  "devDependencies": {
+    "@packages/eslint-config": "workspace:^",
+    "@packages/types": "workspace:^",
+    "@packages/typescript-config": "workspace:^",
+    "@types/express": "^5.0.3",
+    "eslint": "^9.35.0",
+    "tsx": "^4.20.5"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@packages/typescript-config",
+  "version": "1.0.0",
+  "private": true,
+  "strict": true,
+  "exports": {
+    "./*.json": "./src/*.json"
+  }
+}

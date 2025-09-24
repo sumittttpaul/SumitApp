@@ -1,0 +1,27 @@
+{
+  "name": "@packages/validations",
+  "version": "1.0.0",
+  "private": true,
+  "strict": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "check-types": "tsc --noEmit",
+    "clean": "rimraf --glob .turbo dist node_modules tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "zod": "^4.1.7",
+    "zxcvbn": "^4.4.2"
+  },
+  "devDependencies": {
+    "@packages/eslint-config": "workspace:^",
+    "@packages/types": "workspace:^",
+    "@packages/typescript-config": "workspace:^",
+    "@types/zxcvbn": "^4.4.5",
+    "eslint": "^9.35.0"
+  }
+}

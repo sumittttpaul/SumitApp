@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main className="flex size-full flex-col items-center justify-center p-5">
       <div className="flex flex-col gap-y-7 sm:gap-y-9">
-        <div className="sm:px-15 flex gap-x-2 sm:scale-150">
+        <div className="flex gap-x-2 sm:ml-24 sm:scale-150">
           <span className="flex">
             <Image
               src="https://raw.githubusercontent.com/sumittttpaul/SumitApp/e691526c5ee138e8f1d2239754fe6c916fa36f4d/assets/turborepo-dark.svg"
@@ -40,7 +40,7 @@ export default function Home() {
             alt=""
           />
         </div>
-        <ul className="flex flex-col gap-y-2 text-left text-sm/6">
+        <ul className="flex flex-col gap-y-2 text-left text-sm/6 sm:ml-2">
           <li>
             1. Get started by editing <code className="rounded bg-black/10 px-1 py-0.5 font-mono font-semibold dark:bg-white/15">app/page.tsx</code>.
           </li>
@@ -53,7 +53,7 @@ export default function Home() {
             <ExampleDatePicker />
           </li>
         </ul>
-        <div className="flex justify-start">
+        <div className="flex justify-start sm:ml-2">
           <Link
             href={routes.bonus}
             className="group relative flex items-center gap-x-2 rounded-full bg-black px-4 py-2 text-sm text-white dark:bg-white dark:font-medium dark:text-black"

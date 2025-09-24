@@ -13,7 +13,7 @@ const html = `
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" href="/favicon.ico?favicon.144245af.ico" sizes="256x256" type="image/x-icon">
+    <link rel="icon" href="https://raw.githubusercontent.com/sumittttpaul/SumitApp/refs/heads/main/assets/favicon.ico" sizes="256x256" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     
     <style>
@@ -204,7 +204,7 @@ const html = `
                     alt=""
                 />
             </div>
-            <ul class="flex flex-col gap-y-2 text-left text-sm/6 w-full sm:ml-2">
+            <ul class="flex flex-col gap-y-2 text-left text-sm/6 w-full sm:ml-3">
                 <li>
                     1. Get started by editing <code class="rounded bg-white/15 px-1 py-0.5 font-mono font-semibold">api/index.tsx</code>.
                 </li>

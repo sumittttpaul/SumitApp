@@ -14,7 +14,7 @@ import "../global.css";
 // void SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({ fade: true });
 
-const style = StyleSheet.create({ root: { flex: 1, backgroundColor: "#0D0D0F" } });
+const style = StyleSheet.create({ root: { flex: 1, backgroundColor: "#0a0a0a" } });
 
 export default function RootLayout() {
   return (

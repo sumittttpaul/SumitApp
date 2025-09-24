@@ -134,14 +134,14 @@
 }
 
 @theme {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: oklch(100% 0 0);
+  --foreground: oklch(15% 0 0);
 }
 
 @layer theme {
   .dark {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: oklch(6% 0 0);
+    --foreground: oklch(93% 0 0);
   }
 }
 

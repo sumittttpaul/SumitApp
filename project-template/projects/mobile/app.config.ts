@@ -16,14 +16,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     edgeToEdgeEnabled: true,
     package: "com.mobile.app",
-    adaptiveIcon: { foregroundImage: "./assets/adaptive-icon.png", backgroundColor: "#0D0D0F" },
+    adaptiveIcon: { foregroundImage: "./assets/adaptive-icon.png", backgroundColor: "#0a0a0a" },
   },
   ios: { bundleIdentifier: "com.mobile.app", icon: "./assets/adaptive-icon.png", supportsTablet: true },
   plugins: [
     "expo-font",
     "expo-router",
     ["expo-screen-orientation", { initialOrientation: "DEFAULT" }],
-    ["expo-splash-screen", { image: "./assets/splash-icon.png", backgroundColor: "#0D0D0F", imageWidth: 200 }],
+    ["expo-splash-screen", { image: "./assets/splash-icon.png", backgroundColor: "#0a0a0a", imageWidth: 200 }],
     "./plugins/drop-down-menu.ts",
     "./plugins/navigation-bar.ts",
     "./plugins/snack-bar.ts",

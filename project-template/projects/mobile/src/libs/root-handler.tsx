@@ -34,7 +34,7 @@ export default function RootHandler({ children }: React.PropsWithChildren) {
 
   const { top: topHeight, bottom: bottomHeight } = useSafeAreaInsets();
 
-  const topBackgroundColor = "#0D0D0FB6";
+  const topBackgroundColor = "#0a0a0aB6";
   const bottomBackgroundColor = "#000000EA";
 
   useEffect(() => {

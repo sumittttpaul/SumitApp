@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        layout: "#0D0D0F",
+        layout: "#0a0a0a",
       },
       fontFamily: {
         thin: ["inter-thin"],

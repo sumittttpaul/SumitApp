@@ -9,7 +9,7 @@ const technologies = [
     companyWebsiteUrl: "https://vercel.com",
   },
   {
-    companyLogo: "https://assets.stickpng.com/images/5848191dcef1014c0b5e49b4.png",
+    companyLogo: "https://raw.githubusercontent.com/sumittttpaul/SumitApp/41be55e71005a1248d893f8a89128b9ab04c9875/assets/nodejs-dark.svg",
     companyWebsiteUrl: "https://nodejs.org",
   },
   {
@@ -21,7 +21,7 @@ const technologies = [
     companyWebsiteUrl: "https://turborepo.com",
   },
   {
-    companyLogo: "https://upload.wikimedia.org/wikipedia/commons/4/48/Expo-logo-wordmark.svg",
+    companyLogo: "https://raw.githubusercontent.com/sumittttpaul/SumitApp/41be55e71005a1248d893f8a89128b9ab04c9875/assets/expo-dark.svg",
     companyWebsiteUrl: "https://expo.dev",
   },
   {
@@ -38,7 +38,7 @@ function CompanyLogo({ key, companyLogo, companyWebsiteUrl }: { key?: number; co
       className="relative flex cursor-pointer items-center justify-center overflow-hidden rounded-lg p-5 transition-all duration-100 ease-in active:scale-90 sm:hover:bg-black/5 dark:sm:hover:bg-white/5"
     >
       <span className="relative h-10 w-42 max-sm:h-7 max-sm:w-28">
-        <Image className="bg-cover object-contain grayscale-100 dark:invert" fill alt="" src={companyLogo} />
+        <Image className="bg-cover object-contain grayscale-100 dark:invert" src={companyLogo} alt="" priority fill />
       </span>
     </Link>
   );

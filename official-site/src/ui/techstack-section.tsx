@@ -13,7 +13,7 @@ const technologies = [
     companyWebsiteUrl: "https://nodejs.org",
   },
   {
-    companyLogo: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg",
+    companyLogo: "https://raw.githubusercontent.com/sumittttpaul/SumitApp/a7a0af2825033912574d7ae34e580e9cdb820261/assets/nextjs-dark.svg",
     companyWebsiteUrl: "https://nextjs.org",
   },
   {

@@ -31,7 +31,14 @@ export default function Home() {
             />
           </span>
           +
-          <Image className="dark:invert" src="" alt="" width={71} height={15} priority />
+          <Image
+            src="https://raw.githubusercontent.com/sumittttpaul/SumitApp/a7a0af2825033912574d7ae34e580e9cdb820261/assets/nextjs-dark.svg"
+            className="dark:invert"
+            height={15}
+            width={71}
+            priority
+            alt=""
+          />
         </div>
         <ul className="flex flex-col gap-y-2 text-left text-sm/6">
           <li>

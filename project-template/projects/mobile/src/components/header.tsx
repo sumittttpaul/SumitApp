@@ -24,12 +24,15 @@ export default function Header() {
         <Image
           style={styles.logo}
           source={{
-            uri: "",
+            uri: "https://raw.githubusercontent.com/sumittttpaul/SumitApp/e691526c5ee138e8f1d2239754fe6c916fa36f4d/assets/sumitapp-light.svg",
           }}
         />
       </Button>
       <Link href="https://github.com/sumittttpaul/SumitApp" className="flex rounded-full border border-white/20 p-1">
-        <Image style={styles.github} source={{ uri: "" }} />
+        <Image
+          style={styles.github}
+          source={{ uri: "https://raw.githubusercontent.com/sumittttpaul/SumitApp/e691526c5ee138e8f1d2239754fe6c916fa36f4d/assets/github-light.svg" }}
+        />
       </Link>
     </View>
   );

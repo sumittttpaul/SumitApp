@@ -13,14 +13,21 @@ export default function Home() {
       <div className="flex flex-col gap-y-7 sm:gap-y-9">
         <div className="sm:px-15 flex gap-x-2 sm:scale-150">
           <span className="flex">
-            <Image className="dark:hidden" src="" alt="" width={156} height={25} priority />
             <Image
-              className="hidden dark:block"
-              src=""
-              alt=""
+              src="https://raw.githubusercontent.com/sumittttpaul/SumitApp/e691526c5ee138e8f1d2239754fe6c916fa36f4d/assets/turborepo-dark.svg"
+              className="dark:hidden"
               width={156}
               height={25}
               priority
+              alt=""
+            />
+            <Image
+              src="https://raw.githubusercontent.com/sumittttpaul/SumitApp/e691526c5ee138e8f1d2239754fe6c916fa36f4d/assets/turborepo-light.svg"
+              className="hidden dark:block"
+              width={156}
+              height={25}
+              priority
+              alt=""
             />
           </span>
           +

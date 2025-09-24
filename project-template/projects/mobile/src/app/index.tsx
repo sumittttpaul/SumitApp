@@ -4,8 +4,8 @@ import Header from "@/components/header";
 import { Image } from "expo-image";
 
 const styles = StyleSheet.create({
-  turborepo: { width: 156, height: 25 },
-  expo: { width: 71, height: 15 },
+  turborepo: { width: 168, height: 27 },
+  expo: { width: 71, height: 20 },
 });
 
 export default function Index() {
@@ -14,14 +14,14 @@ export default function Index() {
       <Header />
       <View className="flex flex-1 flex-col items-start justify-center p-5">
         <View className="flex flex-col gap-y-7">
-          <View className="flex flex-row items-center gap-x-2">
+          <View className="flex flex-row items-center gap-x-2.5">
             <Image
               style={styles.turborepo}
               source={{
                 uri: "https://raw.githubusercontent.com/sumittttpaul/SumitApp/e691526c5ee138e8f1d2239754fe6c916fa36f4d/assets/turborepo-light.svg",
               }}
             />
-            <Text className="text-2xl text-white">+</Text>
+            <Text className="text-3xl text-white">+</Text>
 
             <Image
               style={styles.expo}
@@ -34,7 +34,7 @@ export default function Index() {
             <View className="flex flex-row">
               <Text className="text-left text-lg/7 text-white">1. Get started by editing </Text>
               <View className="rounded bg-white/15 px-1 py-0.5">
-                <Text className="font-mono font-semibold text-white">app/page.tsx</Text>
+                <Text className="font-mono font-semibold text-white">app/index.tsx</Text>
               </View>
               <Text className="text-left text-lg/7 text-white">.</Text>
             </View>

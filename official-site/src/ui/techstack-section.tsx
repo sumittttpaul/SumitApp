@@ -17,7 +17,7 @@ const technologies = [
     companyWebsiteUrl: "https://nextjs.org",
   },
   {
-    companyLogo: "https://user-images.githubusercontent.com/4060187/106504110-82f58d00-6494-11eb-87b7-a16d4f68bc5a.png",
+    companyLogo: "https://raw.githubusercontent.com/sumittttpaul/SumitApp/41e6e185865747829a100d62cca716ab0eabd030/assets/turborepo-short-dark.svg",
     companyWebsiteUrl: "https://turborepo.com",
   },
   {

@@ -1,3 +1,4 @@
+// import ExampleDatePicker from "@/example/example-date-picker";
 import { View, StyleSheet, Text } from "react-native";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
 
 export default function Index() {
   return (
-    <View className="relative size-full flex-1 overflow-x-hidden antialiased">
+    <View className="bg-layout relative size-full flex-1 overflow-x-hidden antialiased">
       <Header />
       <View className="flex flex-1 flex-col items-start justify-center p-5">
         <View className="flex flex-col gap-y-7">
@@ -40,12 +41,12 @@ export default function Index() {
             </View>
             <Text className="text-left text-lg/7 text-white">2. Save and see your changes instantly.</Text>
             <Text className="text-left text-lg/7 text-white">3. Take a look at these custom components:</Text>
-            {/* <View className="ml-4 flex max-w-md flex-wrap gap-2">
-              <ExampleBottomSheet />
-              <ExampleDropdownMenu />
-              <ExampleToast />
-              <ExampleDatePicker />
-            </View> */}
+            <View className="ml-4 flex max-w-md flex-wrap gap-2">
+              {/* <ExampleBottomSheet /> */}
+              {/* <ExampleDropdownMenu /> */}
+              {/* <ExampleToast /> */}
+              {/* <ExampleDatePicker /> */}
+            </View>
           </View>
         </View>
       </View>

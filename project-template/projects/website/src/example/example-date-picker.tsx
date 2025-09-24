@@ -35,7 +35,7 @@ export default function ExampleDatePicker({ value, onChange }: { value?: Date; o
         type="button"
         className="hover:bg-input border-input flex rounded-full border px-5 py-1 text-sm/7 hover:border-transparent active:scale-90"
       >
-        {value ? value.toLocaleDateString() : "Date picker"}
+        Date picker
       </button>
     </DropDownMenu>
   );

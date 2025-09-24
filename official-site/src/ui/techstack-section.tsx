@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const technologies = [
   {
-    companyLogo: "https://www.drupal.org/files/styles/grid-4-2x/public/vercel-logotype-dark.png?itok=77xK3WvQ",
+    companyLogo: "https://raw.githubusercontent.com/sumittttpaul/SumitApp/f7860e9c03e5719fa271285369720333e27e9a63/assets/vercel-dark.svg",
     companyWebsiteUrl: "https://vercel.com",
   },
   {
@@ -25,7 +25,7 @@ const technologies = [
     companyWebsiteUrl: "https://expo.dev",
   },
   {
-    companyLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/TypeScript_Logo.svg/512px-TypeScript_Logo.svg.png?20171021140424",
+    companyLogo: "https://raw.githubusercontent.com/sumittttpaul/SumitApp/f7860e9c03e5719fa271285369720333e27e9a63/assets/typescript-dark.svg",
     companyWebsiteUrl: "https://www.typescriptlang.org",
   },
 ];

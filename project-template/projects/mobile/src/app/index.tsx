@@ -1,5 +1,8 @@
-// import ExampleDatePicker from "@/example/example-date-picker";
+import ExampleDropdownMenu from "@/example/example-dropdown-menu";
+import ExampleBottomSheet from "@/example/example-bottom-sheet";
+import ExampleDatePicker from "@/example/example-date-picker";
 import { View, StyleSheet, Text } from "react-native";
+import ExampleToast from "@/example/example-toast";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { Image } from "expo-image";
@@ -41,11 +44,11 @@ export default function Index() {
             </View>
             <Text className="text-left text-lg/7 text-white">2. Save and see your changes instantly.</Text>
             <Text className="text-left text-lg/7 text-white">3. Take a look at these custom components:</Text>
-            <View className="ml-4 flex max-w-md flex-wrap gap-2">
-              {/* <ExampleBottomSheet /> */}
-              {/* <ExampleDropdownMenu /> */}
-              {/* <ExampleToast /> */}
-              {/* <ExampleDatePicker /> */}
+            <View className="ml-4 flex max-w-md flex-row flex-wrap gap-2">
+              <ExampleDatePicker />
+              <ExampleToast />
+              <ExampleBottomSheet />
+              <ExampleDropdownMenu />
             </View>
           </View>
         </View>

@@ -1,4 +1,6 @@
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import SafeAreaInsetState from "@/states/safeareainset-state";
+import { useSelector } from "@legendapp/state/react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Inter from "@expo-google-fonts/inter";
 import { View, StyleSheet } from "react-native";
@@ -32,14 +34,19 @@ export default function RootHandler({ children }: React.PropsWithChildren) {
     "inter-black-italic": Inter.Inter_900Black_Italic,
   });
 
+  const { setTopInsetValue, setBottomInsetValue } = useSelector(SafeAreaInsetState);
   const { top: topHeight, bottom: bottomHeight } = useSafeAreaInsets();
 
   const topBackgroundColor = "#0a0a0aB6";
   const bottomBackgroundColor = "#000000EA";
 
   useEffect(() => {
-    if (fontLoaded) void SplashScreen.hideAsync();
-  }, [fontLoaded]);
+    if (fontLoaded) {
+      void SplashScreen.hideAsync();
+      setTopInsetValue(topHeight);
+      setBottomInsetValue(bottomHeight);
+    }
+  }, [fontLoaded, topHeight, bottomHeight]);
 
   if (!fontLoaded && fontError) return null;
 

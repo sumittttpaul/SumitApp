@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const fs = require("fs");
 const path = require("path");
 
@@ -7,7 +9,7 @@ const path = require("path");
 async function forceDelete(targetPath) {
   try {
     if (!fs.existsSync(targetPath)) {
-      console.log(`✓ ${targetPath} doesn't exist, skipping`);
+      // console.log(`✓ ${targetPath} doesn't exist, skipping`);
       return;
     }
 

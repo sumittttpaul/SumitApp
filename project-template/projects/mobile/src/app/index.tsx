@@ -38,7 +38,7 @@ export default function Index() {
             <View className="flex flex-row">
               <Text className="text-left text-lg/7 text-white">1. Get started by editing </Text>
               <View className="rounded bg-white/15 px-1 py-0.5">
-                <Text className="font-mono font-semibold text-white">app/index.tsx</Text>
+                <Text className="font-mono font-bold text-white">app/index.tsx</Text>
               </View>
               <Text className="text-left text-lg/7 text-white">.</Text>
             </View>

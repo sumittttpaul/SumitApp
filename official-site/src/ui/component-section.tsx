@@ -1,5 +1,6 @@
-import { CalendarCheck2Icon, MessageSquareDotIcon, PanelBottomOpenIcon, PictureInPicture2Icon, MoonIcon } from "lucide-react";
+import { CalendarCheck2Icon, MessageSquareDotIcon, PanelBottomOpenIcon, PictureInPicture2Icon, MoonIcon, LayoutDashboardIcon } from "lucide-react";
 import LineContainer from "@/components/line-container";
+import Image from "next/image";
 
 export default function ComponentSection() {
   return (
@@ -41,11 +42,29 @@ export default function ComponentSection() {
         </p>
       </LineContainer>
       <LineContainer className="order-6 mt-10 max-sm:mt-8">
-        <div className="grid w-full grid-flow-dense grid-cols-6 gap-2 bg-black/5 p-2 dark:bg-white/10">
+        <div className="grid w-full grid-flow-dense grid-cols-2 gap-2 bg-black/5 p-2 dark:bg-white/10">
           <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 dark:outline-white/10">
-            <div className="relative h-112 overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
+              <div className="realative flex w-full items-center justify-between">
+                <span className="flex w-full justify-center">
+                  <span className="-mt-22 flex h-[500px] w-[244px] scale-175">
+                    <Image width={740} height={1514} src="/backend_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="-mb-24 flex h-[500px] w-[244px] scale-175">
+                    <Image width={740} height={1514} src="/website_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="-mt-22 flex h-[500px] w-[244px] scale-175">
+                    <Image width={740} height={1514} src="/mobile_android.png" alt="" />
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-3 dark:outline-white/10">
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
             <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
               <div className="flex w-full flex-col gap-y-2.5">
                 <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
@@ -57,9 +76,22 @@ export default function ComponentSection() {
                 </p>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
+              <div className="realative flex w-full items-center justify-between">
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/website_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/website_android_light.png" alt="" />
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-3 dark:outline-white/10">
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
             <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
               <div className="flex w-full flex-col gap-y-2.5">
                 <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
@@ -70,9 +102,22 @@ export default function ComponentSection() {
                 </p>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
+              <div className="realative flex w-full items-center justify-between">
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/website_datepicker_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/mobile_datepicker_android.png" alt="" />
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-2 dark:outline-white/10">
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
             <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
               <div className="flex w-full flex-col gap-y-2.5">
                 <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
@@ -83,9 +128,22 @@ export default function ComponentSection() {
                 </p>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
+              <div className="realative flex w-full items-center justify-between">
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/website_bottomsheet_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/mobile_bottomsheet_android.png" alt="" />
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-2 dark:outline-white/10">
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
             <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
               <div className="flex w-full flex-col gap-y-2.5">
                 <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
@@ -96,20 +154,74 @@ export default function ComponentSection() {
                 </p>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
+              <div className="realative flex w-full items-center justify-between">
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/website_toast_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/mobile_toast_android.png" alt="" />
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-2 dark:outline-white/10">
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
             <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
               <div className="flex w-full flex-col gap-y-2.5">
                 <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
                   <PictureInPicture2Icon className="pointer-events-none size-7" /> Dropdown menu
                 </h2>
                 <p className="text-foreground/60 text-sm/7">
-                  Organize choices in a simple, structured list. Easy to navigate, efficient for quick selections.
+                  Organize choices in a clean, structured list that feels natural to use. With smooth navigation and quick selection, users find what
+                  they need with ease.
                 </p>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
+              <div className="realative flex w-full items-center justify-between">
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/website_dropdownmenu_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/mobile_dropdownmenu_android.png" alt="" />
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
+            <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
+              <div className="flex w-full flex-col gap-y-2.5">
+                <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
+                  <LayoutDashboardIcon className="pointer-events-none size-7" /> Responsive layout
+                </h2>
+                <p className="text-foreground/60 text-sm/7">
+                  Enjoy a seamless experience across devices with layouts that adapt beautifully. Designed to stay consistent on desktops, tablets,
+                  and mobiles alike.
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
+              <div className="realative flex w-full items-center justify-between">
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/website_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/website_android.png" alt="" />
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </LineContainer>

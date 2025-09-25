@@ -70,7 +70,7 @@ export default function ModificationSection() {
                   <code className="bg-input text-foreground rounded-md px-1.5 py-1 font-mono">.expo</code>.
                 </p>
                 <p className="text-foreground/60 ml-2.5 text-sm/7">
-                  <b>2.</b> Run the custom script to clean automatically:
+                  <b>2.</b> Run the custom script to clean automatically. (Before executing the script, ensure your editor/IDE is closed):
                 </p>
                 <CopyToClipboard type="code">bun clean</CopyToClipboard>
                 <p className="text-foreground/60 ml-2.5 text-sm/7">

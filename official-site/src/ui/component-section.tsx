@@ -95,32 +95,6 @@ export default function ComponentSection() {
             <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
               <div className="flex w-full flex-col gap-y-2.5">
                 <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
-                  <CalendarCheck2Icon className="pointer-events-none size-7" /> Date picker
-                </h2>
-                <p className="text-foreground/60 text-sm/7">
-                  Select dates effortlessly with a clean, intuitive interface. Designed for quick scheduling and seamless planning.
-                </p>
-              </div>
-            </div>
-            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
-              <div className="realative flex w-full items-center justify-between">
-                <span className="flex w-full justify-center">
-                  <span className="flex h-[500px] w-[244px]">
-                    <Image width={740} height={1514} src="/website_datepicker_android.png" alt="" />
-                  </span>
-                </span>
-                <span className="flex w-full justify-center">
-                  <span className="flex h-[500px] w-[244px]">
-                    <Image width={740} height={1514} src="/mobile_datepicker_android.png" alt="" />
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
-            <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
-              <div className="flex w-full flex-col gap-y-2.5">
-                <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
                   <PanelBottomOpenIcon className="pointer-events-none size-7" /> Bottom Sheet
                 </h2>
                 <p className="text-foreground/60 text-sm/7">
@@ -143,27 +117,32 @@ export default function ComponentSection() {
               </div>
             </div>
           </div>
-          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 dark:outline-white/10">
             <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
               <div className="flex w-full flex-col gap-y-2.5">
                 <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
-                  <MessageSquareDotIcon className="pointer-events-none size-7" /> Toast
+                  <CalendarCheck2Icon className="pointer-events-none size-7" /> Date picker
                 </h2>
                 <p className="text-foreground/60 text-sm/7">
-                  Get instant feedback with lightweight, elegant notifications. Subtle yet powerful, always keeping users informed.
+                  Select dates effortlessly with a clean, intuitive interface. Designed for quick scheduling and seamless planning.
                 </p>
               </div>
             </div>
             <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
               <div className="realative flex w-full items-center justify-between">
                 <span className="flex w-full justify-center">
-                  <span className="flex h-[500px] w-[244px]">
-                    <Image width={740} height={1514} src="/website_toast_android.png" alt="" />
+                  <span className="flex h-[400px] w-[686px]">
+                    <Image width={2595} height={1514} src="/website_datepicker_desktop.png" alt="" />
                   </span>
                 </span>
                 <span className="flex w-full justify-center">
                   <span className="flex h-[500px] w-[244px]">
-                    <Image width={740} height={1514} src="/mobile_toast_android.png" alt="" />
+                    <Image width={740} height={1514} src="/website_datepicker_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/mobile_datepicker_android.png" alt="" />
                   </span>
                 </span>
               </div>
@@ -218,6 +197,37 @@ export default function ComponentSection() {
                 <span className="flex w-full justify-center">
                   <span className="flex h-[500px] w-[244px]">
                     <Image width={740} height={1514} src="/website_android.png" alt="" />
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 dark:outline-white/10">
+            <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
+              <div className="flex w-full flex-col gap-y-2.5">
+                <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
+                  <MessageSquareDotIcon className="pointer-events-none size-7" /> Toast
+                </h2>
+                <p className="text-foreground/60 text-sm/7">
+                  Get instant feedback with lightweight, elegant notifications. Subtle yet powerful, always keeping users informed.
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
+              <div className="realative flex w-full items-center justify-between">
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[400px] w-[686px]">
+                    <Image width={2595} height={1514} src="/website_toast_desktop.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/website_toast_android.png" alt="" />
+                  </span>
+                </span>
+                <span className="flex w-full justify-center">
+                  <span className="flex h-[500px] w-[244px]">
+                    <Image width={740} height={1514} src="/mobile_toast_android.png" alt="" />
                   </span>
                 </span>
               </div>

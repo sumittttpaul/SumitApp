@@ -1,3 +1,4 @@
+import { CalendarCheck2Icon, MessageSquareDotIcon, PanelBottomOpenIcon, PictureInPicture2Icon, MoonIcon } from "lucide-react";
 import LineContainer from "@/components/line-container";
 
 export default function ComponentSection() {
@@ -40,15 +41,75 @@ export default function ComponentSection() {
         </p>
       </LineContainer>
       <LineContainer className="order-6 mt-10 max-sm:mt-8">
-        <div className="grid w-full grid-flow-dense grid-cols-2 gap-2 bg-black/5 p-2 dark:bg-white/10">
+        <div className="grid w-full grid-flow-dense grid-cols-6 gap-2 bg-black/5 p-2 dark:bg-white/10">
           <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 dark:outline-white/10">
             <div className="relative h-112 overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
           </div>
-          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
-            <div className="relative h-112 overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-3 dark:outline-white/10">
+            <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
+              <div className="flex w-full flex-col gap-y-2.5">
+                <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
+                  <MoonIcon className="pointer-events-none size-7" /> Dark mode
+                </h2>
+                <p className="text-foreground/60 text-sm/7">
+                  Dark mode support lets you enjoy a sleek, modern look that&apos;s easy on the eyes. Perfect for late-night use or low-light
+                  environments.
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
           </div>
-          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-1 dark:outline-white/10">
-            <div className="relative h-112 overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-3 dark:outline-white/10">
+            <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
+              <div className="flex w-full flex-col gap-y-2.5">
+                <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
+                  <CalendarCheck2Icon className="pointer-events-none size-7" /> Date picker
+                </h2>
+                <p className="text-foreground/60 text-sm/7">
+                  Select dates effortlessly with a clean, intuitive interface. Designed for quick scheduling and seamless planning.
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+          </div>
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-2 dark:outline-white/10">
+            <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
+              <div className="flex w-full flex-col gap-y-2.5">
+                <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
+                  <PanelBottomOpenIcon className="pointer-events-none size-7" /> Bottom Sheet
+                </h2>
+                <p className="text-foreground/60 text-sm/7">
+                  Bring important actions closer with a smooth slide-up panel. Perfect for mobile-first workflows and quick access.
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+          </div>
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-2 dark:outline-white/10">
+            <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
+              <div className="flex w-full flex-col gap-y-2.5">
+                <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
+                  <MessageSquareDotIcon className="pointer-events-none size-7" /> Toast
+                </h2>
+                <p className="text-foreground/60 text-sm/7">
+                  Get instant feedback with lightweight, elegant notifications. Subtle yet powerful, always keeping users informed.
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
+          </div>
+          <div className="bg-background @container isolate col-span-full flex flex-col gap-2 overflow-hidden rounded-2xl p-2 outline outline-black/5 md:col-span-2 dark:outline-white/10">
+            <div className="flex w-full flex-col gap-y-5 p-8 max-sm:p-4">
+              <div className="flex w-full flex-col gap-y-2.5">
+                <h2 className="flex items-center gap-x-4 text-xl/8 font-medium @md:text-2xl/8">
+                  <PictureInPicture2Icon className="pointer-events-none size-7" /> Dropdown menu
+                </h2>
+                <p className="text-foreground/60 text-sm/7">
+                  Organize choices in a simple, structured list. Easy to navigate, efficient for quick selections.
+                </p>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10"></div>
           </div>
         </div>
       </LineContainer>

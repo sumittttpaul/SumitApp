@@ -74,7 +74,7 @@ export default function ModificationSection() {
                 </p>
                 <CopyToClipboard type="code">bun clean</CopyToClipboard>
                 <p className="text-foreground/60 ml-2.5 text-sm/7">
-                  <b>2.</b> Install dependencies with your preferred package manager:
+                  <b>3.</b> Install dependencies with your preferred package manager:
                 </p>
                 <CopyToClipboard type="code">npm install</CopyToClipboard>
                 <p className="text-foreground/60 ml-2.5 text-sm/7">or</p>

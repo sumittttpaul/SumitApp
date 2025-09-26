@@ -4,8 +4,6 @@
   
   <br />
   <br />
-  <br />
-  <br />
   
   <p><strong>Rapidly build modern apps with everything pre-configured and ready to use.</strong></p>
   

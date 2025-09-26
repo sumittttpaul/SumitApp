@@ -30,9 +30,5 @@
   "workspaces": [
     "projects/*",
     "packages/*"
-  ],
-  "packageManager": "bun@1.2.22",
-  "dependencies": {
-    "react-native-paper": "^5.14.5"
-  }
+  ]
 }

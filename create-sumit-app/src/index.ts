@@ -175,7 +175,7 @@ async function createProject(
   if (options.verbose) {
     logger.box(
       template.features.map((f) => `• ${f}`).join('\n'),
-      `✨ ${template.name} Features`
+      `✨ ${template.name} template's features`
     );
   }
 
@@ -324,7 +324,7 @@ async function createProject(
 
   logger.box(
     nextSteps.map((step, i) => `${i + 1}. ${chalk.cyan(step)}`).join('\n'),
-    '🚀 Get Started'
+    '🚀 Get started'
   );
 
   logger.newLine();

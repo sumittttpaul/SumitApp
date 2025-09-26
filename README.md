@@ -39,6 +39,14 @@ Or install in the current directory:
 npx create-sumit-app
 ```
 
+## 📱 Screenshots
+
+<div align="center" >
+  <img src="./official-site/public/website_desktop.png" alt="Website Desktop" width="45%" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="./official-site/public/mobile_android.png" alt="Mobile Android" width="13%" />
+</div>
+
 ## ✨ Features
 
 ### 🏗️ **Monorepo Architecture**
@@ -56,7 +64,7 @@ npx create-sumit-app
 ### 🎨 **Modern UI/UX**
 
 - **Tailwind CSS 4** for styling
-- **Radix UI** components for accessibility
+- **Shadcn UI** components for accessibility
 - **React Native Paper** for mobile UI
 - Dark/Light theme support
 - Responsive design across all platforms
@@ -136,6 +144,116 @@ bun dev          # Start development server
 bun build        # Build for production
 ```
 
+## 🌐 Vercel Deployment Guide
+
+SumitApp is optimized for Vercel deployment with support for both the Next.js website and Node.js serverless APIs. Follow these steps to deploy your project using the Vercel Dashboard:
+
+### 📋 Prerequisites
+
+1. **GitHub Repository**: Push your code to a GitHub repository
+2. **Vercel Account**: Sign up at [vercel.com](https://vercel.com)
+3. **Environment Variables**: Prepare any required environment variables
+
+### 🚀 Deployment Steps
+
+#### Step 1: Import Your Repository
+
+1. Go to [vercel.com/dashboard](https://vercel.com/dashboard)
+2. Click **"Add New..."** → **"Project"**
+3. Select **"Import Git Repository"**
+4. Choose your GitHub repository containing the SumitApp project
+5. Click **"Import"**
+
+#### Step 2: Configure Your Deployments
+
+You'll need to create **two separate deployments** for optimal performance:
+
+##### 🌐 **Website Deployment (Next.js)**
+
+1. **Project Settings:**
+
+   - **Project Name**: `your-app-name-website`
+   - **Framework Preset**: **Next.js**
+   - **Root Directory**: `projects/website`
+
+2. **Build & Development Settings:**
+
+   - **Build Command**: `cd ../.. && bun run build --filter=website`
+   - **Output Directory**: `.next`
+   - **Install Command**: `cd ../.. && bun install`
+   - **Development Command**: `cd ../.. && bun run dev --filter=website`
+
+3. **Environment Variables** (if needed):
+
+   - Add any frontend-specific environment variables
+   - Example: `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL`
+
+4. Click **"Deploy"**
+
+##### ⚡ **Backend API Deployment (Node.js)**
+
+1. **Create Second Project:**
+
+   - Go back to Vercel dashboard
+   - Import the same repository again
+   - **Project Name**: `your-app-name-api`
+
+2. **Project Settings:**
+
+   - **Framework Preset**: **Other**
+   - **Root Directory**: Leave empty (deploy from root)
+
+3. **Build & Development Settings:**
+
+   - **Build Command**: `bun run build --filter=backend`
+   - **Output Directory**: `projects/backend/dist`
+   - **Install Command**: `bun install`
+   - **Development Command**: `bun run dev --filter=backend`
+
+4. **Functions Configuration:**
+
+   - Vercel will automatically detect API routes in `projects/backend/api/`
+   - No additional configuration needed
+
+5. **Environment Variables** (if needed):
+
+   - Add backend-specific environment variables
+   - Example: `DATABASE_URL`, `JWT_SECRET`, `API_KEY`
+
+6. Click **"Deploy"**
+
+#### Step 3: Configure Custom Domains (Optional)
+
+1. **Website Domain:**
+
+   - In your website project settings, go to **"Domains"**
+   - Add your custom domain (e.g., `yourapp.com`)
+   - Follow DNS configuration instructions
+
+2. **API Domain:**
+   - In your backend project settings, go to **"Domains"**
+   - Add your API subdomain (e.g., `api.yourapp.com`)
+   - Update your frontend to use the new API URL
+
+### 📊 Post-Deployment Checklist
+
+- [ ] **Website loads correctly** at the Vercel URL
+- [ ] **API endpoints respond** properly
+- [ ] **Environment variables** are configured
+- [ ] **Custom domains** are set up (if applicable)
+- [ ] **CORS settings** allow frontend to access backend
+- [ ] **Database connections** work (if applicable)
+- [ ] **Error monitoring** is set up
+
+### 🔄 Continuous Deployment
+
+Once configured, Vercel will automatically:
+
+- **Deploy on git push** to your main branch
+- **Preview deployments** for pull requests
+- **Rollback** if builds fail
+- **Cache builds** for faster deployments
+
 ## 🛠️ Technology Stack
 
 ### **Frontend**
@@ -177,14 +295,6 @@ bun build        # Build for production
 - **Zod** - TypeScript-first schema validation
 - **Date-fns** - Date utility library
 - **Axios** - HTTP client
-
-## 📱 Screenshots
-
-<div align="center" >
-  <img src="./official-site/public/website_desktop.png" alt="Website Desktop" width="45%" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="./official-site/public/mobile_android.png" alt="Mobile Android" width="13%" />
-</div>
 
 ## 👨‍💻 Author
 

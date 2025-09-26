@@ -2,13 +2,14 @@ export interface Template {
   name: string;
   description: string;
   url: string;
+  path?: string;
   dependencies?: string[];
   features: string[];
 }
 
 export interface Config {
   defaultTemplate?: string;
-  packageManager?: "npm" | "yarn" | "pnpm" | "bun";
+  packageManager?: 'npm' | 'yarn' | 'pnpm' | 'bun';
   git?: boolean;
   verbose?: boolean;
   skipUpdateCheck?: boolean;
@@ -22,7 +23,7 @@ export interface CreateProjectOptions {
   skipInstall?: boolean;
 }
 
-export type PackageManager = "npm" | "yarn" | "pnpm" | "bun";
+export type PackageManager = 'npm' | 'yarn' | 'pnpm' | 'bun';
 
 export interface PackageManagerInfo {
   name: PackageManager;

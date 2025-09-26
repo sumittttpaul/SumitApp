@@ -1,4 +1,5 @@
 import gradient from 'gradient-string';
+import boxen from 'boxen';
 import chalk from 'chalk';
 
 export class Logger {
@@ -69,7 +70,6 @@ export class Logger {
   }
 
   box(message: string, title?: string) {
-    const boxen = require('boxen');
     console.log(
       boxen(message, {
         title,

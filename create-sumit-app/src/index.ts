@@ -32,6 +32,10 @@ import { CreateProjectOptions, Template, Config } from './types/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+function getTemplatePath(template: Template): string {
+  return template.path || `templates/${template.name}`;
+}
+
 async function selectTemplate(
   config: Config,
   logger: Logger,
@@ -175,7 +179,7 @@ async function createProject(
     );
   }
 
-  // Clone template
+  // Clone template with sparse checkout for subdirectories
   const downloadSpinner = ora({
     text: 'Downloading template...',
     spinner: 'dots12',
@@ -183,9 +187,57 @@ async function createProject(
 
   try {
     logger.verbose(`Cloning from: ${template.url}`);
-    await execa('git', ['clone', '--depth=1', template.url, targetDir], {
-      stdio: options.verbose ? 'inherit' : 'pipe',
-    });
+
+    // For templates with subdirectories, use sparse checkout
+    if (template.url.includes('SumitApp.git')) {
+      // Step 1: Clone with no checkout
+      await execa(
+        'git',
+        ['clone', '--no-checkout', '--depth=1', template.url, targetDir],
+        {
+          stdio: options.verbose ? 'inherit' : 'pipe',
+        }
+      );
+
+      // Step 2: Configure sparse checkout
+      await execa('git', ['sparse-checkout', 'init'], {
+        cwd: projectPath,
+        stdio: options.verbose ? 'inherit' : 'pipe',
+      });
+
+      // Step 3: Set the specific template directory
+      const templatePath = getTemplatePath(template); // e.g., "templates/default"
+      await execa('git', ['sparse-checkout', 'set', templatePath], {
+        cwd: projectPath,
+        stdio: options.verbose ? 'inherit' : 'pipe',
+      });
+
+      // Step 4: Checkout the files
+      await execa('git', ['checkout'], {
+        cwd: projectPath,
+        stdio: options.verbose ? 'inherit' : 'pipe',
+      });
+
+      // Step 5: Move files from subdirectory to root
+      const templateDir = path.join(projectPath, templatePath);
+      if (await fs.pathExists(templateDir)) {
+        const files = await fs.readdir(templateDir);
+        for (const file of files) {
+          await fs.move(
+            path.join(templateDir, file),
+            path.join(projectPath, file)
+          );
+        }
+        // Clean up the empty template directory structure
+        await fs.remove(path.join(projectPath, 'templates'));
+      }
+    } else {
+      // Standard clone for standalone repositories
+      await execa('git', ['clone', '--depth=1', template.url, targetDir], {
+        stdio: options.verbose ? 'inherit' : 'pipe',
+      });
+    }
+
     downloadSpinner.succeed(chalk.green('Template downloaded successfully!'));
   } catch (error) {
     downloadSpinner.fail(chalk.red('Failed to download template'));

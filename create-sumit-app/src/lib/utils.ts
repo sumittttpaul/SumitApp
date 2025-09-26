@@ -1,18 +1,40 @@
-import { execa } from "execa";
-import fs from "fs-extra";
-import path from "path";
-import updateCheck from "update-check";
-import { PackageManager, PackageManagerInfo } from "../types/index.js";
-import { Logger } from "./logger.js";
+import { PackageManager, PackageManagerInfo } from '../types/index.js';
+import updateCheck from 'update-check';
+import { Logger } from './logger.js';
+import { execa } from 'execa';
+import fs from 'fs-extra';
+import path from 'path';
 
 const PACKAGE_MANAGERS: PackageManagerInfo[] = [
-  { name: "bun", lockFile: "bun.lockb", command: "bun", installArgs: ["install"] },
-  { name: "pnpm", lockFile: "pnpm-lock.yaml", command: "pnpm", installArgs: ["install"] },
-  { name: "yarn", lockFile: "yarn.lock", command: "yarn", installArgs: ["install"] },
-  { name: "npm", lockFile: "package-lock.json", command: "npm", installArgs: ["install"] },
+  {
+    name: 'bun',
+    lockFile: 'bun.lock',
+    command: 'bun',
+    installArgs: ['install'],
+  },
+  {
+    name: 'pnpm',
+    lockFile: 'pnpm-lock.yaml',
+    command: 'pnpm',
+    installArgs: ['install'],
+  },
+  {
+    name: 'yarn',
+    lockFile: 'yarn.lock',
+    command: 'yarn',
+    installArgs: ['install'],
+  },
+  {
+    name: 'npm',
+    lockFile: 'package-lock.json',
+    command: 'npm',
+    installArgs: ['install'],
+  },
 ];
 
-export async function detectPackageManager(logger: Logger): Promise<PackageManager> {
+export async function detectPackageManager(
+  logger: Logger
+): Promise<PackageManager> {
   // Check for lockfiles first
   for (const manager of PACKAGE_MANAGERS) {
     if (await fs.pathExists(manager.lockFile)) {
@@ -24,7 +46,7 @@ export async function detectPackageManager(logger: Logger): Promise<PackageManag
   // Check if package managers are available
   for (const manager of PACKAGE_MANAGERS) {
     try {
-      await execa(manager.command, ["--version"], { stdio: "ignore" });
+      await execa(manager.command, ['--version'], { stdio: 'ignore' });
       logger.verbose(`Using available package manager: ${manager.command}`);
       return manager.name;
     } catch {
@@ -32,28 +54,30 @@ export async function detectPackageManager(logger: Logger): Promise<PackageManag
     }
   }
 
-  return "npm";
+  return 'npm';
 }
 
-export function getPackageManagerInfo(name: PackageManager): PackageManagerInfo {
-  return PACKAGE_MANAGERS.find(pm => pm.name === name) || PACKAGE_MANAGERS[3]; // Default to npm
+export function getPackageManagerInfo(
+  name: PackageManager
+): PackageManagerInfo {
+  return PACKAGE_MANAGERS.find((pm) => pm.name === name) || PACKAGE_MANAGERS[3]; // Default to npm
 }
 
 export async function checkForUpdates(logger: Logger): Promise<void> {
   try {
-    const packagePath = path.resolve(process.cwd(), "package.json");
+    const packagePath = path.resolve(process.cwd(), 'package.json');
     if (!(await fs.pathExists(packagePath))) return;
-    
+
     const packageJson = await fs.readJson(packagePath);
     const update = await updateCheck(packageJson);
-    
+
     if (update) {
       logger.newLine();
       logger.box(
         `A new version is available: ${logger.gradient(update.latest)}\n` +
-        `Current version: ${packageJson.version}\n\n` +
-        `Run: ${logger.gradient("npm install -g create-sumit-app@latest")} to update`,
-        "🚀 Update Available"
+          `Current version: ${packageJson.version}\n\n` +
+          `Run: ${logger.gradient('npm install -g create-sumit-app@latest')} to update`,
+        '🚀 Update Available'
       );
       logger.newLine();
     }
@@ -71,28 +95,31 @@ export async function isDirectoryEmpty(dirPath: string): Promise<boolean> {
   }
 }
 
-export async function validateProjectName(name: string): Promise<{ valid: boolean; message?: string }> {
+export async function validateProjectName(
+  name: string
+): Promise<{ valid: boolean; message?: string }> {
   // Check for valid npm package name
   const validNameRegex = /^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$/i;
-  
+
   if (!validNameRegex.test(name)) {
     return {
       valid: false,
-      message: "Project name must be a valid package name (lowercase, no spaces, only letters, numbers, dashes, underscores, and dots)"
+      message:
+        'Project name must be a valid package name (lowercase, no spaces, only letters, numbers, dashes, underscores, and dots)',
     };
   }
 
   if (name.length > 214) {
     return {
       valid: false,
-      message: "Project name must be less than 214 characters"
+      message: 'Project name must be less than 214 characters',
     };
   }
 
-  if (name.startsWith(".") || name.startsWith("-") || name.startsWith("_")) {
+  if (name.startsWith('.') || name.startsWith('-') || name.startsWith('_')) {
     return {
       valid: false,
-      message: "Project name cannot start with a dot, dash, or underscore"
+      message: 'Project name cannot start with a dot, dash, or underscore',
     };
   }
 
@@ -107,12 +134,19 @@ export function formatDuration(ms: number): string {
   return `${minutes}m ${seconds % 60}s`;
 }
 
-export async function initializeGitRepository(projectPath: string, logger: Logger): Promise<boolean> {
+export async function initializeGitRepository(
+  projectPath: string,
+  logger: Logger
+): Promise<boolean> {
   try {
-    await execa("git", ["init"], { cwd: projectPath });
-    await execa("git", ["add", "."], { cwd: projectPath });
-    await execa("git", ["commit", "-m", "Initial commit from create-sumit-app"], { cwd: projectPath });
-    logger.verbose("Initialized git repository with initial commit");
+    await execa('git', ['init'], { cwd: projectPath });
+    await execa('git', ['add', '.'], { cwd: projectPath });
+    await execa(
+      'git',
+      ['commit', '-m', 'Initial commit from create-sumit-app'],
+      { cwd: projectPath }
+    );
+    logger.verbose('Initialized git repository with initial commit');
     return true;
   } catch (error) {
     logger.debug(`Git initialization failed: ${error}`);

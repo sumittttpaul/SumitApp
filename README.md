@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./assets/sumitapp-dark.svg" alt="SumitApp Logo" width="300" height="auto" />
+  <img src="./assets/sumitapp-light.svg" alt="SumitApp Logo" width="300" height="auto" />
   
   <h1>SumitApp</h1>
   
@@ -9,14 +9,13 @@
 
   <br />
 
-  [![GitHub Stars](https://img.shields.io/github/stars/sumittttpaul/SumitApp?style=for-the-badge&logo=github&color=yellow)](https://github.com/sumittttpaul/SumitApp)
-  [![GitHub Forks](https://img.shields.io/github/forks/sumittttpaul/SumitApp?style=for-the-badge&logo=github&color=blue)](https://github.com/sumittttpaul/SumitApp)
-  [![License](https://img.shields.io/github/license/sumittttpaul/SumitApp?style=for-the-badge&color=green)](./LICENSE)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-  [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-  [![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
-  [![Turborepo](https://img.shields.io/badge/Turborepo-EF4444?style=for-the-badge&logo=turborepo&logoColor=white)](https://turbo.build/)
+[![GitHub Stars](https://img.shields.io/github/stars/sumittttpaul/SumitApp?style=for-the-badge&logo=github&color=yellow)](https://github.com/sumittttpaul/SumitApp)
+[![GitHub Forks](https://img.shields.io/github/forks/sumittttpaul/SumitApp?style=for-the-badge&logo=github&color=blue)](https://github.com/sumittttpaul/SumitApp)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
+[![Turborepo](https://img.shields.io/badge/Turborepo-EF4444?style=for-the-badge&logo=turborepo&logoColor=white)](https://turbo.build/)
 
 </div>
 
@@ -41,16 +40,19 @@ npx create-sumit-app
 ## ✨ Features
 
 ### 🏗️ **Monorepo Architecture**
+
 - **Turborepo** for blazing-fast builds and caching
 - Shared packages for components, utilities, and configurations
 - Optimized workspace management with Bun
 
 ### 🌐 **Multi-Platform Development**
+
 - **Next.js 15** web application with App Router
 - **Expo 54** mobile app for iOS and Android
 - **Node.js** serverless APIs with Vercel deployment
 
 ### 🎨 **Modern UI/UX**
+
 - **Tailwind CSS 4** for styling
 - **Radix UI** components for accessibility
 - **React Native Paper** for mobile UI
@@ -58,6 +60,7 @@ npx create-sumit-app
 - Responsive design across all platforms
 
 ### 🛠️ **Developer Experience**
+
 - **TypeScript** for type safety
 - **ESLint** and **Prettier** for code quality
 - **React Compiler** for optimized builds
@@ -65,6 +68,7 @@ npx create-sumit-app
 - Comprehensive tooling and scripts
 
 ### 📦 **Shared Packages**
+
 - `@packages/components` - Reusable UI components
 - `@packages/hooks` - Custom React hooks
 - `@packages/utils` - Utility functions
@@ -96,30 +100,35 @@ sumitapp/
 ## 🚀 Available Scripts
 
 ### Root Commands
+
 ```bash
 bun dev          # Start all projects in development mode
 bun build        # Build all projects
 bun lint         # Lint all projects
 bun format       # Format code with Prettier
 bun check-types  # Type check all projects
-bun clean        # Clean all build artifacts
+bun clean        # Clean all build artifacts (Note: Before cleaning, ensure the editor/IDE is closed.)
 ```
 
 ### Individual Project Commands
+
 ```bash
 # Website (Next.js)
+bun --filter=website dev
 cd projects/website
 bun dev          # Start development server
 bun build        # Build for production
 bun start        # Start production server
 
 # Mobile (Expo)
+bun --filter=mobile dev
 cd projects/mobile
 bun dev          # Start Expo development server
 bun android      # Run on Android device/emulator
 bun ios          # Run on iOS device/simulator
 
 # Backend (Node.js)
+bun --filter=backend dev
 cd projects/backend
 bun dev          # Start development server
 bun build        # Build for production
@@ -128,6 +137,7 @@ bun build        # Build for production
 ## 🛠️ Technology Stack
 
 ### **Frontend**
+
 - **Next.js 15** - React framework with App Router
 - **React 19** - Latest React with concurrent features
 - **Tailwind CSS 4** - Utility-first CSS framework
@@ -136,6 +146,7 @@ bun build        # Build for production
 - **Lucide React** - Beautiful icons
 
 ### **Mobile**
+
 - **Expo 54** - React Native development platform
 - **React Native 0.81** - Cross-platform mobile framework
 - **NativeWind** - Tailwind CSS for React Native
@@ -143,12 +154,14 @@ bun build        # Build for production
 - **Expo Router** - File-based routing
 
 ### **Backend**
+
 - **Node.js** - JavaScript runtime
 - **Express 5** - Web framework
 - **Vercel** - Serverless deployment platform
 - **TypeScript** - Type-safe JavaScript
 
 ### **Development Tools**
+
 - **Turborepo** - Monorepo build system
 - **Bun** - Fast JavaScript runtime and package manager
 - **TypeScript** - Static type checking
@@ -157,6 +170,7 @@ bun build        # Build for production
 - **React Compiler** - Optimizing compiler
 
 ### **State Management & Utilities**
+
 - **Legend State** - Fast and flexible state management
 - **Zod** - TypeScript-first schema validation
 - **Date-fns** - Date utility library
@@ -164,28 +178,16 @@ bun build        # Build for production
 
 ## 📱 Screenshots
 
-<div align="center">
+<div align="center" >
   <img src="./official-site/public/website_desktop.png" alt="Website Desktop" width="45%" />
-  <img src="./official-site/public/mobile_android.png" alt="Mobile Android" width="45%" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="./official-site/public/mobile_android.png" alt="Mobile Android" width="13%" />
 </div>
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 Author
 
 **Sumit Paul**
+
 - Website: [sumitttpaul.vercel.app](https://sumitttpaul.vercel.app/)
 - LinkedIn: [@sumitttpaul](https://www.linkedin.com/in/sumitttpaul/)
 - GitHub: [@sumittttpaul](https://github.com/sumittttpaul)

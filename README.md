@@ -200,7 +200,6 @@ bun build        # Build for production
 - [Next.js](https://nextjs.org/) for the incredible React framework
 - [Expo](https://expo.dev/) for simplifying mobile development
 - [Vercel](https://vercel.com/) for seamless deployment
-- All the open-source contributors who make this possible
 
 ---
 

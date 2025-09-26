@@ -1,7 +1,9 @@
 <div align="center">
   <img src="./assets/sumitapp-light.svg#gh-dark-mode-only" alt="SumitApp Logo" width="300" height="auto" />
   <img src="./assets/sumitapp-dark.svg#gh-light-mode-only" alt="SumitApp Logo" width="300" height="auto" />
-    
+  
+  <br />
+  
   <p><strong>Rapidly build modern apps with everything pre-configured and ready to use.</strong></p>
   
   <p>A monorepo pre-configured project powered by <strong>Turborepo</strong>, featuring a <strong>Next.js</strong> web app, an <strong>Expo</strong> mobile app, and <strong>Node.js</strong> Vercel serverless APIs.</p>

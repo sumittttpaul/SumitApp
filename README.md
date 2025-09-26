@@ -3,6 +3,9 @@
   <img src="./assets/sumitapp-dark.svg#gh-light-mode-only" alt="SumitApp Logo" width="300" height="auto" />
   
   <br />
+  <br />
+  <br />
+  <br />
   
   <p><strong>Rapidly build modern apps with everything pre-configured and ready to use.</strong></p>
   

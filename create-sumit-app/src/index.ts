@@ -35,6 +35,78 @@ function getTemplatePath(template: Template): string {
   return template.path || `templates/${template.name}`;
 }
 
+async function cleanupGitDirectory(
+  projectPath: string,
+  logger: Logger
+): Promise<void> {
+  const gitDir = path.join(projectPath, '.git');
+
+  if (!(await fs.pathExists(gitDir))) {
+    return;
+  }
+
+  let retries = 3;
+  while (retries > 0) {
+    try {
+      await fs.remove(gitDir);
+      logger.verbose('Removed template .git directory');
+      return;
+    } catch (error: any) {
+      retries--;
+
+      if (error.code === 'EBUSY' || error.code === 'EPERM') {
+        if (retries > 0) {
+          logger.verbose(
+            `Git cleanup failed, retrying... (${retries} attempts left)`
+          );
+          // Wait a bit before retrying
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
+          // Try to make files writable on Windows
+          try {
+            await makeGitFilesWritable(gitDir);
+          } catch (chmodError) {
+            // Ignore chmod errors
+          }
+        } else {
+          logger.warn('Could not remove .git directory automatically');
+          logger.info(
+            'You may need to manually delete the .git folder if it exists'
+          );
+          return;
+        }
+      } else {
+        // For other errors, just warn and continue
+        logger.verbose(`Git cleanup error: ${error.message}`);
+        return;
+      }
+    }
+  }
+}
+
+// Helper function to make git files writable
+async function makeGitFilesWritable(gitDir: string): Promise<void> {
+  try {
+    const files = await fs.readdir(gitDir, { withFileTypes: true });
+
+    for (const file of files) {
+      const fullPath = path.join(gitDir, file.name);
+
+      if (file.isDirectory()) {
+        await makeGitFilesWritable(fullPath);
+      } else {
+        try {
+          await fs.chmod(fullPath, 0o666); // Make file writable
+        } catch (error) {
+          // Ignore individual file errors
+        }
+      }
+    }
+  } catch (error) {
+    // Ignore directory traversal errors
+  }
+}
+
 async function selectPackageManager(
   config: Config,
   logger: Logger,
@@ -46,15 +118,18 @@ async function selectPackageManager(
       name: 'bun',
       description: '⚡ Ultra-fast JavaScript runtime and package manager',
     },
-    {
-      name: 'pnpm',
-      description: '📦 Fast, disk space efficient package manager',
-    },
-    {
-      name: 'yarn',
-      description: '🐈 Fast, reliable, and secure dependency management',
-    },
-    { name: 'npm', description: '📦 Default Node.js package manager' },
+    // {
+    //   name: 'pnpm',
+    //   description: '📦 Fast, disk space efficient package manager',
+    // },
+    // {
+    //   name: 'yarn',
+    //   description: '🐈 Fast, reliable, and secure dependency management',
+    // },
+    // {
+    //   name: 'npm',
+    //   description: '📦 Simple and widely used Node.js package manager',
+    // },
   ];
 
   // If package manager specified via CLI, use it
@@ -199,6 +274,10 @@ async function createProject(
       initial: 'my-sumit-app',
       validate: async (value: string) => {
         if (!value.trim()) return 'Project name is required';
+
+        // Allow dot (.) for current directory
+        if (value === '.') return true;
+
         const validation = await validateProjectName(value);
         return validation.valid || validation.message!;
       },
@@ -211,11 +290,13 @@ async function createProject(
 
     targetDir = inputName;
   } else {
-    // Validate provided project name
-    const validation = await validateProjectName(targetDir);
-    if (!validation.valid) {
-      logger.error(validation.message!);
-      process.exit(1);
+    // Validate provided project name (allow dot for current directory)
+    if (targetDir !== '.') {
+      const validation = await validateProjectName(targetDir);
+      if (!validation.valid) {
+        logger.error(validation.message!);
+        process.exit(1);
+      }
     }
   }
 
@@ -225,16 +306,46 @@ async function createProject(
     process.exit(1);
   }
 
-  const projectPath = path.resolve(process.cwd(), targetDir);
-  const relativeProjectPath = path.relative(process.cwd(), projectPath);
-  const projectDirForDisplay = relativeProjectPath || 'current directory';
+  // Handle current directory installation
+  let resolvedProjectPath: string; // ← Changed name to avoid conflict
+  let displayPath: string; // ← Changed name to avoid conflict
 
-  logger.step(1, 4, `Creating project in ${chalk.cyan(projectDirForDisplay)}`);
+  if (targetDir === '.') {
+    // Install in current directory
+    resolvedProjectPath = process.cwd();
+    displayPath = 'current directory';
+
+    // Validate current directory name for package.json compatibility
+    const currentDirName = path.basename(resolvedProjectPath);
+    const validation = await validateProjectName(currentDirName);
+    if (!validation.valid) {
+      logger.error(
+        `Current directory name "${currentDirName}" is not a valid package name.`
+      );
+      logger.error(validation.message!);
+      logger.info(
+        'Please rename your directory to use lowercase letters, numbers, hyphens, underscores, and dots only.'
+      );
+      process.exit(1);
+    }
+  } else {
+    // Install in new directory
+    resolvedProjectPath = path.resolve(process.cwd(), targetDir);
+    const relativeProjectPath = path.relative(
+      process.cwd(),
+      resolvedProjectPath
+    );
+    displayPath = relativeProjectPath || 'current directory';
+  }
+
+  logger.step(1, 4, `Creating project in ${chalk.cyan(displayPath)}`);
 
   // Check if directory exists and is not empty
-  if (await fs.pathExists(projectPath)) {
-    if (!(await isDirectoryEmpty(projectPath))) {
-      logger.error(`Directory "${targetDir}" already exists and is not empty.`);
+  if (await fs.pathExists(resolvedProjectPath)) {
+    if (!(await isDirectoryEmpty(resolvedProjectPath))) {
+      logger.error(
+        `Directory "${targetDir === '.' ? 'current directory' : targetDir}" already exists and is not empty.`
+      );
 
       const { overwrite } = await prompts({
         type: 'confirm',
@@ -244,8 +355,20 @@ async function createProject(
       });
 
       if (overwrite) {
-        await fs.emptyDir(projectPath);
-        logger.success('Existing files removed');
+        // Add spinner while deleting files
+        const deleteSpinner = ora({
+          text: 'Removing existing files...',
+          spinner: 'dots',
+        }).start();
+
+        try {
+          await fs.emptyDir(resolvedProjectPath);
+          deleteSpinner.succeed(chalk.green('Existing files removed'));
+        } catch (error) {
+          deleteSpinner.fail(chalk.red('Failed to remove existing files'));
+          logger.error(`Directory cleanup failed: ${error}`);
+          process.exit(1);
+        }
       } else {
         logger.warn('Project creation cancelled.');
         process.exit(0);
@@ -254,6 +377,7 @@ async function createProject(
   }
 
   // Select template
+  logger.newLine();
   const template = await selectTemplate(config, logger, options.template);
   logger.step(2, 4, `Using template: ${chalk.cyan(template.name)}`);
 
@@ -287,35 +411,35 @@ async function createProject(
 
       // Step 2: Configure sparse checkout
       await execa('git', ['sparse-checkout', 'init'], {
-        cwd: projectPath,
+        cwd: resolvedProjectPath,
         stdio: options.verbose ? 'inherit' : 'pipe',
       });
 
       // Step 3: Set the specific template directory
       const templatePath = getTemplatePath(template); // e.g., "templates/default"
       await execa('git', ['sparse-checkout', 'set', templatePath], {
-        cwd: projectPath,
+        cwd: resolvedProjectPath,
         stdio: options.verbose ? 'inherit' : 'pipe',
       });
 
       // Step 4: Checkout the files
       await execa('git', ['checkout'], {
-        cwd: projectPath,
+        cwd: resolvedProjectPath,
         stdio: options.verbose ? 'inherit' : 'pipe',
       });
 
       // Step 5: Move files from subdirectory to root
-      const templateDir = path.join(projectPath, templatePath);
+      const templateDir = path.join(resolvedProjectPath, templatePath);
       if (await fs.pathExists(templateDir)) {
         const files = await fs.readdir(templateDir);
         for (const file of files) {
           await fs.move(
             path.join(templateDir, file),
-            path.join(projectPath, file)
+            path.join(resolvedProjectPath, file)
           );
         }
         // Clean up the empty template directory structure
-        await fs.remove(path.join(projectPath, 'templates'));
+        await fs.remove(path.join(resolvedProjectPath, 'templates'));
       }
     } else {
       // Standard clone for standalone repositories
@@ -335,7 +459,7 @@ async function createProject(
   }
 
   // Clean up git directory
-  await fs.remove(path.join(projectPath, '.git'));
+  await cleanupGitDirectory(resolvedProjectPath, logger);
   logger.verbose('Removed template .git directory');
 
   // Detect/Select package manager
@@ -358,7 +482,7 @@ async function createProject(
 
     try {
       await execa(pmInfo.command, pmInfo.installArgs, {
-        cwd: projectPath,
+        cwd: resolvedProjectPath,
         stdio: options.verbose ? 'inherit' : 'pipe',
       });
       installSpinner.succeed(
@@ -391,6 +515,10 @@ async function createProject(
   //   logger.info('Skipped git initialization');
   // }
 
+  // Get the actual project name for display
+  const actualProjectName =
+    targetDir === '.' ? path.basename(resolvedProjectPath) : targetDir;
+
   // Success message
   const duration = formatDuration(Date.now() - startTime);
   logger.newLine();
@@ -398,18 +526,34 @@ async function createProject(
 
   logger.newLine();
   logger.success(
-    `🎉 Successfully created ${chalk.green(targetDir)} in ${chalk.green(duration)}`
+    `🎉 Successfully created ${chalk.green(actualProjectName)} in ${chalk.green(duration)}`
   );
   logger.newLine();
 
-  // Next steps
-  const nextSteps = [
-    `cd ${chalk.hex('#FFFFFF')(targetDir)}`,
-    `${pmInfo.command} ${pmInfo.name === 'npm' ? 'run ' : ''}dev`,
-  ];
+  // Next steps - show actual commands based on directory
+  const nextSteps: string[] = [];
+
+  if (targetDir === '.') {
+    // Current directory - no cd command needed
+    nextSteps.push(
+      `${pmInfo.command} ${pmInfo.name === 'npm' ? 'run ' : ''}dev`
+    );
+  } else {
+    // New directory - include cd command
+    nextSteps.push(`cd ${chalk.hex('#FFFFFF')(actualProjectName)}`);
+    nextSteps.push(
+      `${pmInfo.command} ${pmInfo.name === 'npm' ? 'run ' : ''}dev`
+    );
+  }
 
   if (options.skipInstall) {
-    nextSteps.splice(1, 0, `${pmInfo.command} ${pmInfo.installArgs.join(' ')}`);
+    // Insert install command at appropriate position
+    const installCmd = `${pmInfo.command} ${pmInfo.installArgs.join(' ')}`;
+    if (targetDir === '.') {
+      nextSteps.splice(0, 0, installCmd); // Add as first step
+    } else {
+      nextSteps.splice(1, 0, installCmd); // Add after cd command
+    }
   }
 
   logger.box(

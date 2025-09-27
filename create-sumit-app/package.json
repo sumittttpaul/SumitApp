@@ -1,6 +1,6 @@
 {
   "name": "create-sumit-app",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "✨ A beautiful CLI to bootstrap projects from Sumit.app's project templates",
   "type": "module",
   "main": "dist/index.js",

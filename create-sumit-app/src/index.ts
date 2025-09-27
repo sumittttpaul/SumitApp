@@ -223,7 +223,7 @@ async function selectTemplate(
   }
 
   // Interactive selection
-  logger.newLine();
+  // logger.newLine();
   logger.log('🎨 Choose a template for your project:');
 
   const { selectedTemplate } = await prompts({
@@ -243,7 +243,6 @@ async function selectTemplate(
     process.exit(0);
   }
 
-  logger.newLine();
   return selectedTemplate;
 }
 
@@ -338,6 +337,7 @@ async function createProject(
     displayPath = relativeProjectPath || 'current directory';
   }
 
+  logger.newLine();
   logger.step(1, 4, `Creating project in ${chalk.cyan(displayPath)}`);
 
   // Check if directory exists and is not empty
@@ -379,6 +379,7 @@ async function createProject(
   // Select template
   logger.newLine();
   const template = await selectTemplate(config, logger, options.template);
+  logger.newLine();
   logger.step(2, 4, `Using template: ${chalk.cyan(template.name)}`);
 
   // Show template features
@@ -576,7 +577,7 @@ program
   .description(
     "✨ A beautiful CLI to bootstrap projects from Sumit.app's project templates"
   )
-  .version('1.0.0')
+  .version('1.0.2')
   .argument('[project-name]', 'The name of the project to create')
   .option(
     '-t, --template <template>',

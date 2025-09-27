@@ -466,7 +466,7 @@ export default function FolderStructure() {
   return (
     <div className="flex w-full flex-col gap-3 *:first:grow">
       <div className="flex w-full items-center justify-between gap-3">
-        <h4 className="font-semibold tracking-wide opacity-60 max-sm:text-[0.938rem]/6">sumit-app</h4>
+        <h4 className="font-semibold tracking-wide opacity-60 max-sm:text-[0.938rem]/6">my-sumit-app</h4>
         <div className="flex items-center gap-3">
           <button
             type="button"

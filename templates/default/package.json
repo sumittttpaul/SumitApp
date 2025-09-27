@@ -30,5 +30,6 @@
   "workspaces": [
     "projects/*",
     "packages/*"
-  ]
+  ],
+  "packageManager": "bun@1.2.22"
 }

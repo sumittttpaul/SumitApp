@@ -1,5 +1,6 @@
 # =====================================
-# .gitignore for templates folder
+# .gitignore for Assets folder
 # =====================================
 
-bun.lock
+assets/mockups
+assets/others

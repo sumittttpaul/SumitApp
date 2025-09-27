@@ -25,7 +25,9 @@
     "sumit-app",
     "scaffold",
     "generator",
-    "boilerplate"
+    "boilerplate",
+    "create-app",
+    "npx"
   ],
   "author": "Sumit Paul <sumitpaul.project@gmail.com>",
   "license": "MIT",
@@ -39,7 +41,9 @@
   },
   "homepage": "https://github.com/sumittttpaul/SumitApp/tree/master/create-sumit-app#readme",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
   ],
   "dependencies": {
     "chalk": "^5.6.0",

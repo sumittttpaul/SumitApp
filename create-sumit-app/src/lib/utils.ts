@@ -32,31 +32,6 @@ const PACKAGE_MANAGERS: PackageManagerInfo[] = [
   },
 ];
 
-export async function detectPackageManager(
-  logger: Logger
-): Promise<PackageManager> {
-  // Check for lockfiles first
-  for (const manager of PACKAGE_MANAGERS) {
-    if (await fs.pathExists(manager.lockFile)) {
-      logger.verbose(`Detected ${manager.name} from lockfile`);
-      return manager.name;
-    }
-  }
-
-  // Check if package managers are available
-  for (const manager of PACKAGE_MANAGERS) {
-    try {
-      await execa(manager.command, ['--version'], { stdio: 'ignore' });
-      logger.verbose(`Using available package manager: ${manager.command}`);
-      return manager.name;
-    } catch {
-      // Continue to next manager
-    }
-  }
-
-  return 'npm';
-}
-
 export function getPackageManagerInfo(
   name: PackageManager
 ): PackageManagerInfo {

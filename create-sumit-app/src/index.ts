@@ -19,13 +19,12 @@ import {
   getConfigPath,
 } from './lib/config.js';
 import {
-  detectPackageManager,
   getPackageManagerInfo,
   checkForUpdates,
   isDirectoryEmpty,
   validateProjectName,
   formatDuration,
-  initializeGitRepository,
+  // initializeGitRepository,
 } from './lib/utils.js';
 import { CreateProjectOptions, Template, Config } from './types/index.js';
 
@@ -34,6 +33,92 @@ const __dirname = path.dirname(__filename);
 
 function getTemplatePath(template: Template): string {
   return template.path || `templates/${template.name}`;
+}
+
+async function selectPackageManager(
+  config: Config,
+  logger: Logger,
+  packageManagerName?: string
+): Promise<string> {
+  // Available package managers with descriptions
+  const availableManagers = [
+    {
+      name: 'bun',
+      description: '⚡ Ultra-fast JavaScript runtime and package manager',
+    },
+    {
+      name: 'pnpm',
+      description: '📦 Fast, disk space efficient package manager',
+    },
+    {
+      name: 'yarn',
+      description: '🐈 Fast, reliable, and secure dependency management',
+    },
+    { name: 'npm', description: '📦 Default Node.js package manager' },
+  ];
+
+  // If package manager specified via CLI, use it
+  if (packageManagerName) {
+    const manager = availableManagers.find(
+      (m) => m.name === packageManagerName
+    );
+    if (!manager) {
+      logger.error(`Package manager "${packageManagerName}" not found.`);
+      logger.info('Available package managers:');
+      availableManagers.forEach((m) =>
+        logger.info(`  • ${m.name} - ${m.description}`)
+      );
+      process.exit(1);
+    }
+    logger.verbose(`Using CLI specified package manager: ${manager.name}`);
+    return manager.name;
+  }
+
+  // If default package manager in config, use it
+  if (config.packageManager) {
+    logger.verbose(
+      `Using config default package manager: ${config.packageManager}`
+    );
+    return config.packageManager;
+  }
+
+  // Check for lockfiles in the CURRENT directory for auto-detection
+  const lockFiles = [
+    { name: 'bun', file: 'bun.lockb' },
+    { name: 'pnpm', file: 'pnpm-lock.yaml' },
+    { name: 'yarn', file: 'yarn.lock' },
+    { name: 'npm', file: 'package-lock.json' },
+  ];
+
+  for (const lockFile of lockFiles) {
+    if (await fs.pathExists(path.join(process.cwd(), lockFile.file))) {
+      logger.verbose(`Auto-detected ${lockFile.name} from ${lockFile.file}`);
+      return lockFile.name;
+    }
+  }
+
+  // Interactive selection (no auto-detection from global availability)
+  logger.newLine();
+  logger.log('📦 Choose a package manager:');
+
+  const { selectedManager } = await prompts({
+    type: 'select',
+    name: 'selectedManager',
+    message: 'Select a package manager',
+    choices: availableManagers.map((manager) => ({
+      title: `${manager.name}`,
+      description: manager.description,
+      value: manager.name,
+    })),
+    initial: 0, // Default to bun (first option)
+  });
+
+  if (!selectedManager) {
+    logger.error('Package manager selection cancelled');
+    process.exit(0);
+  }
+
+  return selectedManager;
 }
 
 async function selectTemplate(
@@ -63,8 +148,8 @@ async function selectTemplate(
   }
 
   // Interactive selection
-  logger.info('🎨 Choose a template for your project:');
   logger.newLine();
+  logger.log('🎨 Choose a template for your project:');
 
   const { selectedTemplate } = await prompts({
     type: 'select',
@@ -83,6 +168,7 @@ async function selectTemplate(
     process.exit(0);
   }
 
+  logger.newLine();
   return selectedTemplate;
 }
 
@@ -143,7 +229,7 @@ async function createProject(
   const relativeProjectPath = path.relative(process.cwd(), projectPath);
   const projectDirForDisplay = relativeProjectPath || 'current directory';
 
-  logger.step(1, 5, `Creating project in ${chalk.cyan(projectDirForDisplay)}`);
+  logger.step(1, 4, `Creating project in ${chalk.cyan(projectDirForDisplay)}`);
 
   // Check if directory exists and is not empty
   if (await fs.pathExists(projectPath)) {
@@ -169,7 +255,7 @@ async function createProject(
 
   // Select template
   const template = await selectTemplate(config, logger, options.template);
-  logger.step(2, 5, `Using template: ${chalk.magenta(template.name)}`);
+  logger.step(2, 4, `Using template: ${chalk.cyan(template.name)}`);
 
   // Show template features
   if (options.verbose) {
@@ -252,14 +338,16 @@ async function createProject(
   await fs.remove(path.join(projectPath, '.git'));
   logger.verbose('Removed template .git directory');
 
-  // Detect package manager
-  const packageManager =
-    options.packageManager ||
-    config.packageManager ||
-    (await detectPackageManager(logger));
+  // Detect/Select package manager
+  const packageManager = await selectPackageManager(
+    config,
+    logger,
+    options.packageManager
+  );
   const pmInfo = getPackageManagerInfo(packageManager as any);
 
-  logger.step(3, 5, `Using package manager: ${chalk.blue(packageManager)}`);
+  logger.newLine();
+  logger.step(3, 4, `Using package manager: ${chalk.cyan(packageManager)}`);
 
   // Install dependencies
   if (!options.skipInstall) {
@@ -288,33 +376,35 @@ async function createProject(
   }
 
   // Initialize git repository
-  logger.step(4, 5, 'Initializing git repository...');
-  if (options.git !== false && config.git !== false) {
-    const gitSuccess = await initializeGitRepository(projectPath, logger);
-    if (gitSuccess) {
-      logger.success('Git repository initialized');
-    } else {
-      logger.warn(
-        'Git initialization failed, but project was created successfully'
-      );
-    }
-  } else {
-    logger.info('Skipped git initialization');
-  }
+  // logger.step(4, 5, 'Initializing git repository...');
+  // logger.newLine();
+  // if (options.git !== false && config.git !== false) {
+  //   const gitSuccess = await initializeGitRepository(projectPath, logger);
+  //   if (gitSuccess) {
+  //     logger.success('Git repository initialized');
+  //   } else {
+  //     logger.warn(
+  //       'Git initialization failed, but project was created successfully'
+  //     );
+  //   }
+  // } else {
+  //   logger.info('Skipped git initialization');
+  // }
 
   // Success message
   const duration = formatDuration(Date.now() - startTime);
-  logger.step(5, 5, 'Project setup complete!');
+  logger.newLine();
+  logger.step(4, 4, 'Project setup complete!');
 
   logger.newLine();
   logger.success(
-    `🎉 Successfully created ${chalk.magenta(targetDir)} in ${chalk.green(duration)}`
+    `🎉 Successfully created ${chalk.green(targetDir)} in ${chalk.green(duration)}`
   );
   logger.newLine();
 
   // Next steps
   const nextSteps = [
-    `cd ${targetDir}`,
+    `cd ${chalk.hex('#FFFFFF')(targetDir)}`,
     `${pmInfo.command} ${pmInfo.name === 'npm' ? 'run ' : ''}dev`,
   ];
 
@@ -323,12 +413,15 @@ async function createProject(
   }
 
   logger.box(
-    nextSteps.map((step, i) => `${i + 1}. ${chalk.cyan(step)}`).join('\n'),
+    nextSteps
+      .map((step, i) => `${i + 1}. ${chalk.hex('#FFE600FF')(step)}`)
+      .join('\n'),
     '🚀 Get started'
   );
 
   logger.newLine();
-  logger.info('Happy coding! 🎨✨');
+  logger.log('Happy coding! 🎨✨');
+  logger.newLine();
 }
 
 // CLI Setup
@@ -350,7 +443,7 @@ program
     'Package manager to use (npm, yarn, pnpm, bun)'
   )
   .option('-v, --verbose', 'Enable verbose logging')
-  .option('--no-git', 'Skip git repository initialization')
+  // .option('--no-git', 'Skip git repository initialization')
   .option('--skip-install', 'Skip dependency installation')
   .action(async (projectName, options) => {
     await createProject(projectName, options);
@@ -388,7 +481,7 @@ program
       const validKeys = [
         'defaultTemplate',
         'packageManager',
-        'git',
+        // 'git',
         'verbose',
         'skipUpdateCheck',
       ];

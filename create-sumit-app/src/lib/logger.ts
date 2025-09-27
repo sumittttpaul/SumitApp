@@ -25,10 +25,13 @@ export class Logger {
 ╚═══════════════════════════════════════════════════════════════════════╝
     `;
     console.log(gradient.pastel.multiline(banner));
-    console.log();
   }
 
-  info(message: string, icon = 'ℹ') {
+  log(message: string) {
+    console.log(message);
+  }
+
+  info(message: string, icon = 'ℹ ') {
     console.log(`${chalk.cyan(icon)} ${message}`);
   }
 
@@ -40,17 +43,17 @@ export class Logger {
     console.error(`${chalk.red(icon)} ${chalk.red(message)}`);
   }
 
-  warn(message: string, icon = '⚠') {
+  warn(message: string, icon = '⚠ ') {
     console.log(`${chalk.yellow(icon)} ${chalk.yellow(message)}`);
   }
 
-  debug(message: string, icon = '🐛') {
+  debug(message: string, icon = '🐛 ') {
     if (this.verboseEnabled) {
       console.log(`${chalk.gray(icon)} ${chalk.gray(message)}`);
     }
   }
 
-  verbose(message: string, icon = '📝') {
+  verbose(message: string, icon = '📝 ') {
     if (this.verboseEnabled) {
       console.log(`${chalk.dim(icon)} ${chalk.dim(message)}`);
     }
@@ -74,8 +77,8 @@ export class Logger {
       boxen(message, {
         title,
         padding: 1,
-        borderColor: 'cyan',
-        borderStyle: 'round',
+        borderColor: 'gray',
+        borderStyle: 'classic', // round
       })
     );
   }

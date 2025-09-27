@@ -47,17 +47,17 @@ export default function ComponentSection() {
             <div className="relative overflow-hidden rounded-lg bg-black/[2.5%] bg-[image:radial-gradient(var(--pattern-fg)_1px,_transparent_0)] bg-[size:10px_10px] bg-fixed p-4 [--pattern-fg:var(--color-black)]/5 after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:inset-ring after:inset-ring-black/5 sm:p-8 dark:bg-white/[2.5%] dark:[--pattern-fg:var(--color-white)]/10 dark:after:inset-ring-white/10">
               <div className="relative flex w-full items-center gap-x-2 overflow-hidden max-md:flex-col max-md:gap-y-5 md:max-h-[clamp(150px,35vw,500px)] md:justify-between">
                 <span className="flex w-full justify-center">
-                  <span className="flex h-auto w-full max-md:max-w-[427px] md:mb-[clamp(10px,5vw,90px)] md:max-h-[875px]">
+                  <span className="flex h-auto w-full max-md:w-2/3 max-md:max-w-[427px] md:mb-[clamp(10px,5vw,90px)] md:max-h-[875px]">
                     <Image width={740} height={1514} src="/backend_android.png" className="max-md:object-cover" alt="" />
                   </span>
                 </span>
                 <span className="flex w-full justify-center">
-                  <span className="flex h-auto w-full max-md:max-w-[427px] md:mt-[clamp(10px,5vw,90px)] md:max-h-[875px]">
+                  <span className="flex h-auto w-full max-md:w-2/3 max-md:max-w-[427px] md:mt-[clamp(10px,5vw,90px)] md:max-h-[875px]">
                     <Image width={740} height={1514} src="/website_android.png" className="max-md:object-cover" alt="" />
                   </span>
                 </span>
                 <span className="flex w-full justify-center">
-                  <span className="flex h-auto w-full max-md:max-w-[427px] md:mb-[clamp(10px,5vw,90px)] md:max-h-[875px]">
+                  <span className="flex h-auto w-full max-md:w-2/3 max-md:max-w-[427px] md:mb-[clamp(10px,5vw,90px)] md:max-h-[875px]">
                     <Image width={740} height={1514} src="/mobile_android.png" className="max-md:object-cover" alt="" />
                   </span>
                 </span>

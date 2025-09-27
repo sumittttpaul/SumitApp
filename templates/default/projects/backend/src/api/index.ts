@@ -214,7 +214,7 @@ const html = `
     </main>
 
     <footer class="flex w-full justify-between p-5 max-sm:flex-col max-sm:gap-y-2 max-sm:px-2 max-sm:text-center">
-        <p class="text-foreground opacity-60 text-sm/7 max-sm:text-xs/6">Copyright © 2025 Sumit.App</p>
+        <p class="text-foreground opacity-60 text-sm/7 max-sm:text-xs/6">Copyright © 2025 Sumit Paul</p>
         <p class="text-foreground opacity-60 text-sm/7 max-sm:text-xs/6">
             Design by 
             <a href="https://sumitttpaul.vercel.app/" class="underline-offset-2 hover:underline">

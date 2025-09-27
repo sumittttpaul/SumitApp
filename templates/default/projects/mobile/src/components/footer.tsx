@@ -9,7 +9,7 @@ export default function Footer() {
 
   return (
     <View style={{ paddingBottom }} className="flex w-full flex-col gap-y-2 px-2 pt-5">
-      <Text className="text-center text-base/7 text-white opacity-60">Copyright © 2025 Sumit.App</Text>
+      <Text className="text-center text-base/7 text-white opacity-60">Copyright © 2025 Sumit Paul</Text>
       <View className="flex flex-row justify-center gap-x-3 opacity-60">
         <View className="flex flex-row">
           <Text className="text-base/7 text-white">Design by </Text>

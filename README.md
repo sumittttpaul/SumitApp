@@ -28,15 +28,16 @@
 Get started with SumitApp in seconds:
 
 ```bash
-npx create-sumit-app my-app
-cd my-app
+npx create-sumit-app my-sumit-app
+cd my-sumit-app
 bun dev
 ```
 
 Or install in the current directory:
 
 ```bash
-npx create-sumit-app
+npx create-sumit-app .
+bun dev
 ```
 
 ## 📱 Screenshots

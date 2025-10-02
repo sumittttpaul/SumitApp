@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 
+import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { Command } from 'commander';
 import { execa } from 'execa';
 import prompts from 'prompts';
 import chalk from 'chalk';
 import fs from 'fs-extra';
+import degit from 'degit';
 import path from 'path';
 import ora from 'ora';
 
-import { Logger } from './lib/logger.js';
 import { TEMPLATES, getTemplate, listTemplates } from './lib/templates.js';
+import { CreateProjectOptions, Template, Config } from './types/index.js';
+import { Logger } from './lib/logger.js';
 import {
   loadConfig,
   updateConfig,
@@ -26,7 +29,6 @@ import {
   formatDuration,
   // initializeGitRepository,
 } from './lib/utils.js';
-import { CreateProjectOptions, Template, Config } from './types/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -397,65 +399,74 @@ async function createProject(
   }).start();
 
   try {
-    logger.verbose(`Cloning from: ${template.url}`);
+    logger.verbose(`Downloading from: ${template.url}`);
 
-    // For templates with subdirectories, use sparse checkout
+    // Ensure target directory is ready
+    if (targetDir !== '.' && (await fs.pathExists(resolvedProjectPath))) {
+      await fs.remove(resolvedProjectPath);
+    }
+
+    // Ensure directory exists
+    await fs.ensureDir(resolvedProjectPath);
+
+    // For templates with subdirectories, use degit
     if (template.url.includes('SumitApp.git')) {
-      // Step 1: Clone with no checkout
-      await execa(
-        'git',
-        ['clone', '--no-checkout', '--depth=1', template.url, targetDir],
-        {
-          stdio: options.verbose ? 'inherit' : 'pipe',
-        }
-      );
+      const templatePath = getTemplatePath(template);
 
-      // Step 2: Configure sparse checkout
-      await execa('git', ['sparse-checkout', 'init'], {
-        cwd: resolvedProjectPath,
-        stdio: options.verbose ? 'inherit' : 'pipe',
-      });
-
-      // Step 3: Set the specific template directory
-      const templatePath = getTemplatePath(template); // e.g., "templates/default"
-      await execa('git', ['sparse-checkout', 'set', templatePath], {
-        cwd: resolvedProjectPath,
-        stdio: options.verbose ? 'inherit' : 'pipe',
-      });
-
-      // Step 4: Checkout the files
-      await execa('git', ['checkout'], {
-        cwd: resolvedProjectPath,
-        stdio: options.verbose ? 'inherit' : 'pipe',
-      });
-
-      // Step 5: Move files from subdirectory to root
-      const templateDir = path.join(resolvedProjectPath, templatePath);
-      if (await fs.pathExists(templateDir)) {
-        const files = await fs.readdir(templateDir);
-        for (const file of files) {
-          await fs.move(
-            path.join(templateDir, file),
-            path.join(resolvedProjectPath, file)
-          );
-        }
-        // Clean up the empty template directory structure
-        await fs.remove(path.join(resolvedProjectPath, 'templates'));
+      // Extract repo info from URL
+      // https://github.com/sumittttpaul/SumitApp.git -> sumittttpaul/SumitApp
+      const repoMatch = template.url.match(/github\.com[/:]([\w-]+)\/([\w-]+)/);
+      if (!repoMatch) {
+        throw new Error('Invalid GitHub repository URL');
       }
-    } else {
-      // Standard clone for standalone repositories
-      await execa('git', ['clone', '--depth=1', template.url, targetDir], {
-        stdio: options.verbose ? 'inherit' : 'pipe',
+
+      const [, owner, repo] = repoMatch;
+      const repoPath = `${owner}/${repo.replace('.git', '')}/${templatePath}`;
+
+      // degit downloads ONLY this specific folder
+      const emitter = degit(repoPath, {
+        cache: false,
+        force: true,
+        verbose: options.verbose,
       });
+
+      // Download directly to target directory
+      await emitter.clone(resolvedProjectPath);
+
+      logger.verbose(`Downloaded template from: ${repoPath}`);
+    } else {
+      // For standalone repos, still use degit
+      const repoMatch = template.url.match(/github\.com[/:]([\w-]+)\/([\w-]+)/);
+      if (repoMatch) {
+        const [, owner, repo] = repoMatch;
+        const emitter = degit(`${owner}/${repo.replace('.git', '')}`, {
+          cache: false,
+          force: true,
+          verbose: options.verbose,
+        });
+        await emitter.clone(resolvedProjectPath);
+      } else {
+        throw new Error('Invalid repository URL');
+      }
     }
 
     downloadSpinner.succeed(chalk.green('Template downloaded successfully!'));
-  } catch (error) {
+  } catch (error: any) {
     downloadSpinner.fail(chalk.red('Failed to download template'));
-    logger.error(`Git clone failed: ${error}`);
+    logger.error(`Download failed: ${error.message || error}`);
     logger.info(
-      'Make sure you have git installed and the repository is accessible.'
+      'Make sure the repository and template folder exist and are accessible.'
     );
+
+    // Clean up failed download
+    try {
+      if (await fs.pathExists(resolvedProjectPath)) {
+        await fs.remove(resolvedProjectPath);
+      }
+    } catch (cleanupError) {
+      // Ignore
+    }
+
     process.exit(1);
   }
 
@@ -571,13 +582,16 @@ async function createProject(
 
 // CLI Setup
 const program = new Command();
+const require = createRequire(import.meta.url);
+const packageJson = require('../package.json');
+const CLI_VERSION = packageJson.version;
 
 program
   .name('create-sumit-app')
   .description(
     "✨ A beautiful CLI to bootstrap projects from Sumit.app's project templates"
   )
-  .version('1.0.2')
+  .version(CLI_VERSION)
   .argument('[project-name]', 'The name of the project to create')
   .option(
     '-t, --template <template>',

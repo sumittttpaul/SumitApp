@@ -14,11 +14,17 @@ bun install
 bun install --frozen-lockfile
 
 # Add packages to specific workspaces
+bun --filter=website add ---package-name-goes-here---
+bun --filter=backend add ---package-name-goes-here---
+bun --filter=mobile add ---package-name-goes-here---
+# Or
 bun add ---package-name-goes-here--- --cwd projects/website
 bun add ---package-name-goes-here--- --cwd projects/backend
 bun add ---package-name-goes-here--- --dev --cwd projects/website
 
 # Remove packages
+bun --filter=website remove ---package-name-goes-here---
+# Or
 bun remove ---package-name-goes-here--- --cwd projects/website
 
 # Update packages
@@ -33,8 +39,14 @@ bun pm cache rm
 # Run scripts
 bun run dev
 bun run build
-bun dev  # Direct execution
+bun dev  # Direct execution for all workspaces
 bun build
+
+# Run specific scripts
+bun --filter=website dev
+bun --filter=backend dev
+bun --filter=mobile dev
+bun --filter=website run build
 
 # Package info
 bun pm ls

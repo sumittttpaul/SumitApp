@@ -90,22 +90,22 @@ bun dev
 
 ```
 sumitapp/
-├── 📁 assets/                    # Brand assets and logos
+├── 📁 assets/                   # Brand assets and logos
 ├── 🛠️ cli-tool/                 # create-sumit-app CLI
 ├── 🌐 official-site/            # Official documentation site
 └── 📦 project-template/         # Main project template
     ├── 📁 packages/             # Shared packages
     │   ├── components/          # UI components
-    │   ├── hooks/              # React hooks
-    │   ├── utils/              # Utilities
-    │   ├── validations/        # Zod schemas
-    │   ├── types/              # TypeScript types
-    │   ├── eslint-config/      # ESLint configuration
-    │   └── typescript-config/  # TypeScript configuration
-    └── 📁 projects/            # Applications
-        ├── 🌐 website/         # Next.js web app
-        ├── 📱 mobile/          # Expo mobile app
-        └── ⚡ backend/         # Node.js API
+    │   ├── hooks/               # React hooks
+    │   ├── utils/               # Utilities
+    │   ├── validations/         # Zod schemas
+    │   ├── types/               # TypeScript types
+    │   ├── eslint-config/       # ESLint configuration
+    │   └── typescript-config/   # TypeScript configuration
+    └── 📁 projects/             # Applications
+        ├── 🌐 website/          # Next.js web app
+        ├── 📱 mobile/           # Expo mobile app
+        └── ⚡ backend/          # Node.js API
 ```
 
 ## 🚀 Available Scripts
@@ -113,12 +113,12 @@ sumitapp/
 ### Root Commands
 
 ```bash
-bun dev          # Start all projects in development mode
-bun build        # Build all projects
-bun lint         # Lint all projects
-bun format       # Format code with Prettier
-bun check-types  # Type check all projects
-bun clean        # Clean all build artifacts (Note: Before cleaning, ensure the editor/IDE is closed.)
+bun dev              # Start all projects in development mode
+bun run build        # Build all projects
+bun lint             # Lint all projects
+bun format           # Format code with Prettier
+bun check-types      # Type check all projects
+bun clean            # Clean all build artifacts (Note: Before cleaning, ensure the editor/IDE is closed.)
 ```
 
 ### Individual Project Commands
@@ -127,22 +127,22 @@ bun clean        # Clean all build artifacts (Note: Before cleaning, ensure the 
 # Website (Next.js)
 bun --filter=website dev
 cd projects/website
-bun dev          # Start development server
-bun build        # Build for production
-bun start        # Start production server
+bun dev              # Start development server
+bun run build        # Build for production
+bun start            # Start production server
 
 # Mobile (Expo)
 bun --filter=mobile dev
 cd projects/mobile
-bun dev          # Start Expo development server
-bun android      # Run on Android device/emulator
-bun ios          # Run on iOS device/simulator
+bun dev              # Start Expo development server
+bun android          # Run on Android device/emulator
+bun ios              # Run on iOS device/simulator
 
 # Backend (Node.js)
 bun --filter=backend dev
 cd projects/backend
-bun dev          # Start development server
-bun build        # Build for production
+bun dev              # Start development server
+bun run build        # Build for production
 ```
 
 ## 🌐 Vercel Deployment Guide

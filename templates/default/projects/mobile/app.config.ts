@@ -7,10 +7,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: "mobile",
   slug: "Mobile",
   version: "1.0.0",
-  assetBundlePatterns: ["**/*"],
   orientation: "portrait",
-  userInterfaceStyle: "dark",
   icon: "./assets/icon.png",
+  userInterfaceStyle: "dark",
+  assetBundlePatterns: ["**/*"],
   platforms: ["android", "ios"],
   experiments: { typedRoutes: true, reactCompiler: true, tsconfigPaths: true, reactServerFunctions: true },
   android: {

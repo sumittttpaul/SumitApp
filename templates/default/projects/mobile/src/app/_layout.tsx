@@ -11,7 +11,7 @@ import "core-js/actual/structured-clone";
 import "react-native-url-polyfill/auto";
 import "react-native-gesture-handler";
 import "react-native-reanimated";
-import "../global.css";
+import "./global.css";
 
 void SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({ fade: true });

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
 export default function Index() {
   return (
-    <View className="bg-layout relative size-full flex-1 overflow-x-hidden antialiased">
+    <View className="bg-background relative size-full flex-1 overflow-x-hidden antialiased">
       <Header />
       <View className="flex flex-1 flex-col items-start justify-center p-5">
         <View className="flex flex-col gap-y-7">

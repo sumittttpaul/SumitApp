@@ -16,10 +16,10 @@ export default function LineContainer({
       className={cn(
         "relative flex w-full",
         !singleLine &&
-          "before:absolute before:-left-[100vw] before:top-0 before:h-px before:w-[200vw] before:bg-black/5 after:absolute after:-left-[100vw] after:bottom-0 after:h-px after:w-[200vw] after:bg-black/5 dark:before:bg-white/10 dark:after:bg-white/10",
+          "before:absolute before:top-0 before:-left-[100vw] before:h-px before:w-[200vw] before:bg-black/5 after:absolute after:bottom-0 after:-left-[100vw] after:h-px after:w-[200vw] after:bg-black/5 dark:before:bg-white/10 dark:after:bg-white/10",
         singleLine === "top"
-          ? "before:absolute before:-left-[100vw] before:top-0 before:h-px before:w-[200vw] before:bg-black/5 dark:before:bg-white/10"
-          : "after:absolute after:-left-[100vw] after:bottom-0 after:h-px after:w-[200vw] after:bg-black/5 dark:after:bg-white/10",
+          ? "before:absolute before:top-0 before:-left-[100vw] before:h-px before:w-[200vw] before:bg-black/5 dark:before:bg-white/10"
+          : "after:absolute after:bottom-0 after:-left-[100vw] after:h-px after:w-[200vw] after:bg-black/5 dark:after:bg-white/10",
         className,
       )}
     >

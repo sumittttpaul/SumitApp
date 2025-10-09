@@ -13,13 +13,13 @@ export default function Footer() {
       <View className="flex flex-row justify-center gap-x-3 opacity-60">
         <View className="flex flex-row">
           <Text className="text-base/7 text-white">Design by </Text>
-          <Link href="https://sumitttpaul.vercel.app/" className="text-base/7 text-white underline-offset-2 hover:underline">
-            Sumit Paul
+          <Link href="https://sumitttpaul.vercel.app/">
+            <Text className="text-base/7 text-white underline-offset-2 hover:underline">Sumit Paul</Text>
           </Link>
         </View>
         <Text className="text-base/7 text-white">•</Text>
-        <Link href="https://www.linkedin.com/in/sumitttpaul/" className="text-base/7 text-white underline-offset-2 hover:underline">
-          LinkedIn
+        <Link href="https://www.linkedin.com/in/sumitttpaul/">
+          <Text className="text-base/7 text-white underline-offset-2 hover:underline">LinkedIn</Text>
         </Link>
       </View>
     </View>

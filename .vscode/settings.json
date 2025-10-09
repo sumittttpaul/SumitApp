@@ -1,11 +1,19 @@
 {
   "editor.formatOnSave": true,
   "eslint.useFlatConfig": true,
+  "prettier.endOfLine": "auto",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "files.associations": { "*.css": "tailwindcss" },
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "prettier.endOfLine": "auto"
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "class:list",
+    "wrapperClassName"
+  ]
   // "files.exclude": {
   //   "**/.git": true,
   //   "**/.DS_Store": true,

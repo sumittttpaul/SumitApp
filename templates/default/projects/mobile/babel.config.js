@@ -1,5 +1,5 @@
-const fs = require("fs");
 const path = require("path");
+const fs = require("fs");
 
 module.exports = function (api) {
   api.cache(true);
@@ -18,22 +18,12 @@ module.exports = function (api) {
   }
 
   const plugins = [
-    [
-      "module-resolver",
-      {
-        root: ["."],
-        alias: {
-          "@/": "./src",
-          ...packageAliases,
-        },
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
-      },
-    ],
+    ["module-resolver", { root: ["."], alias: { "@/": "./src", ...packageAliases }, extensions: [".js", ".jsx", ".ts", ".tsx"] }],
     "react-native-paper/babel",
   ];
 
   if (process.env.NODE_ENV === "production") plugins.push(["transform-remove-console", { exclude: ["error", "warn"] }]);
   plugins.push("react-native-worklets/plugin");
 
-  return { presets: [["babel-preset-expo", { jsxImportSource: "nativewind" }], "nativewind/babel"], plugins };
+  return { presets: [["babel-preset-expo"]], plugins };
 };

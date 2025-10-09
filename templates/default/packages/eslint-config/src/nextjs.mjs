@@ -27,6 +27,7 @@ export default [
       "@typescript-eslint/no-unsafe-argument": "off",
 
       // Next.js specific
+      "react-hooks/exhaustive-deps": "off",
       "react/no-unknown-property": ["error", { ignore: ["jsx", "global"] }],
     },
   },

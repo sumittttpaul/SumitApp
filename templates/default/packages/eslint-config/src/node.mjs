@@ -8,6 +8,7 @@ export { createConfigFileRule, createTypeAwareConfig };
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   ...baseConfig,
+  { ignores: ["**/eslint.config.*"] },
   {
     files: ["**/*.{js,ts,mjs,cjs}"],
     languageOptions: {

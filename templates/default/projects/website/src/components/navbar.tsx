@@ -7,7 +7,7 @@ import { useStateX } from "@packages/hooks";
 import NavState from "@/states/nav-state";
 import { useEffect, useRef } from "react";
 import { categories } from "@/libs/utils";
-// Uncomment the line below to start navigating to other routes, but make sure you have created all the necessary routes according to your needs beforehand.
+// ? Uncomment the line below to start navigating to other routes, but make sure you have created all the necessary routes according to your needs beforehand.
 // import routes from "@/libs/navigation";
 import { m } from "motion/react";
 
@@ -25,7 +25,7 @@ export default function NavBar() {
   const { index, width, left, setIndex, setWidth, setLeft } = useSelector(NavState);
   const ScrollContainer = useRef<HTMLDivElement>(null);
   const ContainerView = useRef<HTMLElement>(null);
-  // Uncomment the line below to start navigating to other routes, but make sure you have created all the necessary routes according to your needs beforehand. Also import useRouter from next/navigation.
+  // ? Uncomment the line below to start navigating to other routes, but make sure you have created all the necessary routes according to your needs beforehand. Also import useRouter from next/navigation.
   // const { push: navigate } = useRouter();
   const pathname = usePathname();
 
@@ -84,7 +84,7 @@ export default function NavBar() {
             });
           }
         }
-        // Uncomment the line below to start navigating to other routes, but make sure you have created all the necessary routes according to your needs beforehand.
+        // ? Uncomment the line below to start navigating to other routes, but make sure you have created all the necessary routes according to your needs beforehand.
         // navigate(NewButton.innerText.toLocaleLowerCase() === "home" ? routes.home : (NewButton.innerText.toLocaleLowerCase() as any));
       }
     }
@@ -143,14 +143,14 @@ export default function NavBar() {
                 onClick={onClick(i)}
                 id={`nav-button-id-${i}`}
                 onMouseEnter={() => setHovered(data)}
-                className={`${index === i ? "opacity-100" : "opacity-50 hover:opacity-100"} px-2.25 relative cursor-pointer select-none whitespace-nowrap py-1 text-[0.813rem] font-medium capitalize tracking-wide transition-all duration-100 ease-in sm:px-3 sm:py-1.5 sm:text-[0.938rem] dark:font-normal`}
+                className={`${index === i ? "opacity-100" : "opacity-50 hover:opacity-100"} relative cursor-pointer px-2.25 py-1 text-[0.813rem] font-medium tracking-wide whitespace-nowrap capitalize transition-all duration-100 ease-in select-none sm:px-3 sm:py-1.5 sm:text-[0.938rem] dark:font-normal`}
               >
                 {data}
                 {hovered.peek === data && (
                   <m.span
                     layoutId="hover-background"
                     transition={{ type: "tween", duration: 0.3 }}
-                    className="bg-black/7.5 absolute inset-0 rounded-sm max-sm:hidden dark:bg-white/10"
+                    className="absolute inset-0 rounded-sm bg-black/7.5 max-sm:hidden dark:bg-white/10"
                   />
                 )}
               </li>
@@ -163,10 +163,10 @@ export default function NavBar() {
           animate={{ width, x: left }}
           onAnimationComplete={onAnimationComplete}
           transition={{ type: "tween", duration: 0.1 }}
-          className="h-0.75 z-10 mt-1 rounded-t-full bg-black dark:h-0.5 dark:bg-white"
+          className="z-10 mt-1 h-0.75 rounded-t-full bg-black dark:h-0.5 dark:bg-white"
         />
       </div>
-      <span className="bg-black/12.5 dark:bg-white/12.5 -mt-px h-px w-full" />
+      <span className="-mt-px h-px w-full bg-black/12.5 dark:bg-white/12.5" />
     </nav>
   );
 }

@@ -16,7 +16,7 @@ const colors = {
   blue: "[34m",
   magenta: "[35m",
   cyan: "[36m",
-  gray: "[90m"
+  gray: "[90m",
 };
 
 /**
@@ -232,13 +232,13 @@ async function killTurboProcesses() {
   try {
     const { execSync } = require("child_process");
 
-    await new Promise(resolve => setTimeout(resolve, 800)); // Simulate scanning
+    await new Promise((resolve) => setTimeout(resolve, 800)); // Simulate scanning
 
     spinner.setText("Terminating turbo processes...");
 
     try {
       execSync("taskkill /f /im turbo.exe /t", { stdio: ["ignore", "ignore", "ignore"] });
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       spinner.stop(`✅ Killed turbo.exe processes`);
     } catch {
       spinner.stop(`ℹ️  No turbo.exe processes found`);
@@ -250,7 +250,6 @@ async function killTurboProcesses() {
     } catch {
       // Ignore if no processes found
     }
-
   } catch (error) {
     spinner.stop(`⚠️  Could not kill all processes: ${error.message}`);
   }
@@ -305,7 +304,7 @@ async function main() {
   ];
 
   // Filter only existing items
-  const existingItems = itemsToDelete.filter(item => fs.existsSync(item));
+  const existingItems = itemsToDelete.filter((item) => fs.existsSync(item));
 
   if (existingItems.length > 0) {
     const progressBar = new ProgressBar(existingItems.length, "Preparing cleanup...");
@@ -316,7 +315,7 @@ async function main() {
 
       spinner.start();
       // Add a small delay to ensure proper terminal clearing
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       const success = await forceDelete(item, spinner);
 
@@ -333,10 +332,9 @@ async function main() {
 
       // Small delay between operations for better UX and to prevent overlap
       if (i < existingItems.length - 1) {
-        await new Promise(resolve => setTimeout(resolve, 300));
+        await new Promise((resolve) => setTimeout(resolve, 300));
       }
     }
-
   } else {
     log("ℹ️  No files to clean - workspace is already clean!", colors.blue);
   }
@@ -344,7 +342,7 @@ async function main() {
   // Final completion animation with proper spacing
   const completionSpinner = new Spinner("Finalizing cleanup...");
   completionSpinner.start();
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   completionSpinner.stop();
 
   console.log();

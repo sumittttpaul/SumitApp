@@ -14,7 +14,7 @@ export default function ExampleDropdownMenu() {
             <Link
               key="1"
               href="#"
-              className="flex items-center justify-start gap-x-3 rounded-lg py-2.5 pl-3 pr-20 text-sm hover:bg-black/10 active:scale-90 sm:pl-3.5 sm:pr-24 sm:text-sm dark:hover:bg-white/10"
+              className="flex items-center justify-start gap-x-3 rounded-lg py-2.5 pr-20 pl-3 text-sm hover:bg-black/10 active:scale-90 sm:pr-24 sm:pl-3.5 sm:text-sm dark:hover:bg-white/10"
             >
               <FolderIcon className="stroke-1.5 text-foreground pointer-events-none size-5" />
               Manage my account
@@ -27,7 +27,7 @@ export default function ExampleDropdownMenu() {
             <Link
               key="2"
               href="#"
-              className="flex items-center justify-start gap-x-3 rounded-lg py-2.5 pl-3 pr-20 text-sm hover:bg-black/10 active:scale-90 sm:pl-3.5 sm:pr-24 sm:text-sm dark:hover:bg-white/10"
+              className="flex items-center justify-start gap-x-3 rounded-lg py-2.5 pr-20 pl-3 text-sm hover:bg-black/10 active:scale-90 sm:pr-24 sm:pl-3.5 sm:text-sm dark:hover:bg-white/10"
             >
               <PowerIcon className="stroke-1.5 text-foreground pointer-events-none size-5" />
               Log out

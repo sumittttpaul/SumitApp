@@ -1,0 +1,21 @@
+---
+name: CLI Development (SumitApp)
+platform: windows
+summary: Build, test, lint, and format the CLI
+---
+
+# CLI Development
+
+```powershell
+# Dev & Build
+bun --cwd create-sumit-app dev
+bun --cwd create-sumit-app build
+
+# Test & Coverage
+bun --cwd create-sumit-app test
+bun --cwd create-sumit-app test:coverage
+
+# Lint & Format
+bun --cwd create-sumit-app lint
+bun --cwd create-sumit-app format
+```

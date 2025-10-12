@@ -1,0 +1,21 @@
+---
+name: Template Smoke Test (SumitApp)
+platform: windows
+summary: Generate a project into a temp folder and run core scripts
+---
+
+# Template Smoke Test
+
+```powershell
+$TEMP_DIR = Join-Path $env:TEMP ("sumitapp-" + [guid]::NewGuid())
+mkdir $TEMP_DIR | Out-Null
+npx create-sumit-app $TEMP_DIR
+
+bun --cwd $TEMP_DIR dev
+bun --cwd $TEMP_DIR build
+bun --cwd $TEMP_DIR lint
+bun --cwd $TEMP_DIR check-types
+
+# Cleanup when done (optional)
+# Remove-Item -Recurse -Force $TEMP_DIR
+```

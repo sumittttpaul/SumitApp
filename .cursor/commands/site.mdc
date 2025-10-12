@@ -1,0 +1,17 @@
+---
+name: Official Site (SumitApp)
+platform: windows
+summary: Next.js dev/build/start/lint/type-check
+---
+
+# Official Site (Next.js)
+
+```powershell
+bun --cwd official-site dev
+bun --cwd official-site build
+bun --cwd official-site start
+bun --cwd official-site lint
+bun --cwd official-site lint:fix
+bun --cwd official-site check-types
+bun --cwd official-site clean
+```

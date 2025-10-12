@@ -1,0 +1,12 @@
+---
+name: Setup & Install (SumitApp)
+platform: windows
+summary: Install dependencies for subprojects
+---
+
+# Setup & Install
+
+```powershell
+bun --cwd create-sumit-app install
+bun --cwd official-site install
+```

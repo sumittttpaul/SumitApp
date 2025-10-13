@@ -7,13 +7,16 @@ const initializeBundleAnalyzer = withBundleAnalyzer({
 
 export default initializeBundleAnalyzer({
   reactStrictMode: true,
+  reactCompiler: true,
   typedRoutes: true,
   turbopack: { rules: { "*.svg": ["@svgr/webpack"] } },
   experimental: {
     optimizeCss: true,
-    reactCompiler: true,
-    webVitalsAttribution: ["CLS", "LCP", "FID", "FCP", "TTFB"],
+    // cacheComponents: true,
+    turbopackFileSystemCacheForDev: true,
+    // turbopackFileSystemCacheForBuild: true,
     serverActions: { bodySizeLimit: "1mb" },
+    webVitalsAttribution: ["CLS", "LCP", "FID", "FCP", "TTFB"],
   },
   images: { qualities: [75, 100], formats: ["image/webp", "image/avif"], remotePatterns: [{ protocol: "https", hostname: "**", port: "" }] },
   async headers() {

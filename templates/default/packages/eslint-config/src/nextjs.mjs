@@ -1,6 +1,6 @@
 import componentsConfig, { createConfigFileRule, createTypeAwareConfig } from "./components.mjs";
-import pluginReact from "eslint-plugin-react";
 import { FlatCompat } from "@eslint/eslintrc";
+import pluginReact from "eslint-plugin-react";
 
 export { createConfigFileRule, createTypeAwareConfig };
 
@@ -9,9 +9,7 @@ const compat = new FlatCompat({ baseDirectory: import.meta.dirname });
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   ...componentsConfig,
-  ...compat.config({
-    extends: ["plugin:@next/next/recommended"],
-  }),
+  ...compat.extends("next", "next/core-web-vitals"),
   {
     files: ["**/*.{js,ts,jsx,tsx}"],
     plugins: { react: pluginReact },
@@ -31,7 +29,5 @@ export default [
       "react/no-unknown-property": ["error", { ignore: ["jsx", "global"] }],
     },
   },
-  {
-    ignores: [".next/**", "out/**", "public/**", "node_modules/**", ".vercel/**"],
-  },
+  { ignores: [".next/**", "out/**", "public/**", "node_modules/**", ".vercel/**"] },
 ];

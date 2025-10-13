@@ -72,9 +72,7 @@ const createTypeAwareConfig = (tsconfigRootDir) => ({
   },
 });
 
-/**
- * @type {import('eslint').Linter.Config[]}
- */
+/** @type {import('eslint').Linter.Config[]} */
 const baseConfig = [
   // Global ignores
   {
@@ -111,13 +109,8 @@ const baseConfig = [
     rules: {
       // Disable ALL TypeScript rules for config files
       ...disabledTypeScriptRulesForConfigFiles,
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          devDependencies: true,
-          packageDir: [".", "./", "./packages/*", "./projects/*"],
-        },
-      ],
+      "import/no-extraneous-dependencies": ["error", { devDependencies: true, packageDir: [".", "./", "./packages/*", "./projects/*"] }],
+      "import/no-anonymous-default-export": ["error", { allowArray: true, allowObject: true }],
       "prettier/prettier": ["warn", { endOfLine: "auto" }],
     },
   },

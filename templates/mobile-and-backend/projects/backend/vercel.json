@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": null,
+  "installCommand": "bun install",
+  "devCommand": null,
+  "functions": {
+    "api/**/*.{js,ts}": {
+      "runtime": "@vercel/node"
+    }
+  }
+}

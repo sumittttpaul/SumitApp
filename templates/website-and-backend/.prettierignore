@@ -1,0 +1,208 @@
+# =====================================
+# Prettier Ignore File for Monorepo
+# =====================================
+
+# =====================================
+# Dependencies & Package Manager Files
+# =====================================
+node_modules/
+.pnp/
+.pnp.js
+
+# Lock files (auto-generated)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+bun.lock
+
+# Package manager directories
+.yarn/
+.pnpm-store/
+.bun/
+
+# =====================================
+# Build Outputs & Generated Files
+# =====================================
+
+# Build directories
+dist/
+build/
+out/
+.next/
+.expo/
+.turbo/
+.vercel/
+.netlify/
+
+# Static exports
+storybook-static/
+docs/build/
+coverage/
+
+# Minified files
+*.min.js
+*.min.css
+*.min.json
+
+# Source maps
+*.map
+
+# TypeScript build info
+*.tsbuildinfo
+
+# =====================================
+# Cache & Temporary Files
+# =====================================
+.cache/
+.parcel-cache/
+.swc/
+.eslintcache
+.stylelintcache
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# =====================================
+# Generated/Auto-Generated Files  
+# =====================================
+
+# Environment type definitions
+next-env.d.ts
+expo-env.d.ts
+
+# Auto-generated API files
+**/generated/
+**/*.generated.*
+**/*-generated.*
+**/schema.graphql
+
+# Changelog (if auto-generated)
+CHANGELOG.md
+
+# Auto-generated documentation
+docs/api/
+docs/reference/
+
+# =====================================
+# Configuration Files (Selective)
+# =====================================
+
+# Don't format these config files
+.env*
+*.pem
+*.key
+*.crt
+*.jks
+*.p12
+*.p8
+*.mobileprovision
+
+# Binary/special format files
+*.ico
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+*.woff
+*.woff2
+*.ttf
+*.eot
+*.otf
+
+# =====================================
+# Mobile/Native Files
+# =====================================
+ios/
+android/
+*.xcodeproj/
+*.xcworkspace/
+
+# React Native
+*.bundle
+*.jsbundle
+metro.config.js
+
+# =====================================
+# Third-party & Vendor Files
+# =====================================
+vendor/
+lib/
+libs/
+public/lib/
+public/libs/
+
+# CDN files
+public/cdn/
+static/cdn/
+
+# =====================================
+# Documentation & Examples
+# =====================================
+# Exclude large markdown files that might break formatting
+**/README.md
+**/CONTRIBUTING.md
+**/LICENSE.md
+
+# Example files (often have specific formatting)
+**/example*
+**/examples/
+**/demo/
+**/sample/
+
+# =====================================
+# Testing Files (Selective)
+# =====================================
+# Test snapshots (should not be formatted)
+**/__snapshots__/
+*.snap
+*.snapshot
+
+# Test fixtures/mocks (preserve exact format)
+**/fixtures/
+**/mocks/
+**/__fixtures__/
+**/__mocks__/
+
+# =====================================
+# Database & Data Files
+# =====================================
+*.sql
+*.db
+*.sqlite
+*.sqlite3
+*.csv
+*.tsv
+
+# Migration files (preserve exact format)
+**/migrations/
+**/seeds/
+
+# =====================================
+# Logs & Debug Files
+# =====================================
+*.log
+logs/
+.logs/
+
+# =====================================
+# Platform Specific
+# =====================================
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# macOS  
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# =====================================
+# Custom Project Exclusions
+# =====================================
+# Add your project-specific ignores here

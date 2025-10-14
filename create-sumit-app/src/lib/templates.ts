@@ -17,6 +17,32 @@ export const TEMPLATES: Template[] = [
       'Shared components library',
     ],
   },
+  {
+    name: 'mobile and backend',
+    description: 'Full-stack template with Expo + Node.js',
+    url: mainRepoUrl,
+    path: 'templates/mobile-and-backend',
+    features: [
+      'React Native with Expo',
+      'TypeScript configured',
+      'Tailwind CSS',
+      'Legend State for state management',
+      'Shared components library',
+    ],
+  },
+  {
+    name: 'website and backend',
+    description: 'Full-stack template with Next.js + Node.js',
+    url: mainRepoUrl,
+    path: 'templates/website-and-backend',
+    features: [
+      'Next.js 15 with App Router',
+      'TypeScript configured',
+      'Tailwind CSS',
+      'Legend State for state management',
+      'Shared components library',
+    ],
+  },
 ];
 
 export function getTemplate(name: string): Template | undefined {

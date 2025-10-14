@@ -54,7 +54,7 @@ Template development (templates/default)
 
 Next.js/Expo conventions
 
-- Next.js 15 App Router and React 19 types
+- Next.js 16 App Router and React 19 types
 - Prefer Server Components where possible
 - Tailwind CSS 4 with utility-first approach
 - Expo 54 for mobile, NativeWind, React Native Paper

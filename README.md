@@ -58,7 +58,7 @@ bun dev
 
 ### 🌐 **Multi-Platform Development**
 
-- **Next.js 15** web application with App Router
+- **Next.js 16** web application with App Router
 - **Expo 54** mobile app for iOS and Android
 - **Node.js** serverless APIs with Vercel deployment
 
@@ -259,7 +259,7 @@ Once configured, Vercel will automatically:
 
 ### **Frontend**
 
-- **Next.js 15** - React framework with App Router
+- **Next.js 16** - React framework with App Router
 - **React 19** - Latest React with concurrent features
 - **Tailwind CSS 4** - Utility-first CSS framework
 - **Radix UI** - Accessible component primitives

@@ -10,7 +10,7 @@ export const TEMPLATES: Template[] = [
     path: 'templates/default',
     features: [
       'React Native with Expo',
-      'Next.js 15 with App Router',
+      'Next.js 16 with App Router',
       'TypeScript configured',
       'Tailwind CSS',
       'Legend State for state management',
@@ -36,7 +36,7 @@ export const TEMPLATES: Template[] = [
     url: mainRepoUrl,
     path: 'templates/website-and-backend',
     features: [
-      'Next.js 15 with App Router',
+      'Next.js 16 with App Router',
       'TypeScript configured',
       'Tailwind CSS',
       'Legend State for state management',

@@ -7,11 +7,12 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 SumitApp is a CLI tool and template system for rapidly bootstrapping modern full-stack applications. The repository contains:
 
 1. **create-sumit-app** - A CLI tool (similar to create-react-app) that scaffolds new projects
-2. **official-site** - Next.js documentation website 
+2. **official-site** - Next.js documentation website
 3. **templates/** - Project templates that get copied when users run `npx create-sumit-app`
 
 The generated projects are monorepos powered by Turborepo with:
-- **Website**: Next.js 15 with App Router, React 19, Tailwind CSS 4
+
+- **Website**: Next.js 16 with App Router, React 19, Tailwind CSS 4
 - **Mobile**: Expo 54 with React Native, NativeWind
 - **Backend**: Node.js Express APIs for Vercel serverless deployment
 - **Shared packages**: Components, hooks, utils, validations, types
@@ -28,7 +29,7 @@ sumitapp/
 │   ├── tests/                # Vitest test files
 │   └── package.json          # NPM package config
 ├── official-site/            # Documentation site
-│   └── [Next.js 15 app]     # Standard Next.js structure
+│   └── [Next.js 16 app]     # Standard Next.js structure
 ├── templates/                # Project templates
 │   └── default/              # Main template copied by CLI
 │       ├── packages/         # Shared workspace packages
@@ -39,6 +40,7 @@ sumitapp/
 ## Common Development Commands
 
 ### CLI Tool Development (create-sumit-app/)
+
 ```bash
 # Development and testing
 bun --cwd create-sumit-app dev            # Run CLI in dev mode
@@ -55,6 +57,7 @@ bun run create-sumit-app/dist/index.js my-test-app
 ```
 
 ### Official Site Development
+
 ```bash
 # Development server
 bun --cwd official-site dev               # Start with Turbopack
@@ -72,6 +75,7 @@ bun --cwd official-site clean            # Clean build artifacts
 ```
 
 ### Template Testing
+
 ```bash
 # Test template generation
 npx create-sumit-app test-project
@@ -79,7 +83,7 @@ cd test-project
 
 # Standard template commands (what users will use)
 bun dev              # Start all projects in development
-bun build            # Build all projects  
+bun build            # Build all projects
 bun lint             # Lint all projects
 bun format           # Format code with Prettier
 bun check-types      # Type check all projects
@@ -87,7 +91,7 @@ bun clean            # Clean all build artifacts
 
 # Individual project commands
 bun --filter=website dev     # Next.js website only
-bun --filter=mobile dev      # Expo mobile only  
+bun --filter=mobile dev      # Expo mobile only
 bun --filter=backend dev     # Node.js backend only
 ```
 
@@ -104,6 +108,7 @@ The CLI follows a modular architecture:
 - **`src/lib/logger.ts`** - Structured logging with colors and formatting
 
 **Key Features:**
+
 - Uses `degit` to clone templates without Git history
 - Supports multiple package managers (currently optimized for Bun)
 - Interactive prompts with `prompts` library
@@ -116,9 +121,10 @@ The CLI follows a modular architecture:
 Templates use Turborepo workspace configuration with:
 
 - **Shared packages** (`packages/`) - Reusable code across projects
+
   - `@packages/components` - UI components
   - `@packages/hooks` - React hooks
-  - `@packages/utils` - Utility functions  
+  - `@packages/utils` - Utility functions
   - `@packages/validations` - Zod schemas
   - `@packages/types` - TypeScript definitions
   - `@packages/eslint-config` - Shared ESLint rules
@@ -143,12 +149,13 @@ The build system uses Turborepo with optimized task dependencies:
     "dependsOn": ["^lint"]
   },
   "check-types": {
-    "dependsOn": ["^check-types"]  
+    "dependsOn": ["^check-types"]
   }
 }
 ```
 
 **Cache Strategy:**
+
 - Build artifacts are cached based on input files
 - Shared packages are built before dependent projects
 - Type checking and linting run in parallel with builds
@@ -184,6 +191,7 @@ For compatibility, the system also supports npm, yarn, and pnpm, but Bun provide
 ### Template Package Updates
 
 When updating shared packages in templates:
+
 - Ensure workspace dependencies use `workspace:^` protocol
 - Update peer dependencies in consuming packages
 - Test cross-package imports and type resolution
@@ -192,17 +200,21 @@ When updating shared packages in templates:
 ## Deployment Strategy
 
 ### CLI Tool Publishing
+
 - Built artifacts go to `create-sumit-app/dist/`
 - Published to NPM as `create-sumit-app` package
 - Users install via `npx create-sumit-app my-app`
 
 ### Official Site
+
 - Deployed to Vercel with Next.js preset
 - Build command: `bun run build`
 - Uses Next.js static optimization and React Compiler
 
 ### Generated Projects
+
 Templates are pre-configured for:
+
 - **Vercel deployment** (both website and serverless APIs)
 - **Expo Application Services** for mobile app distribution
 - **GitHub Actions** workflows for CI/CD
@@ -210,6 +222,7 @@ Templates are pre-configured for:
 ## Key Dependencies
 
 ### CLI Tool
+
 - **degit** - Template cloning without Git history
 - **prompts** - Interactive command-line prompts
 - **commander** - CLI argument parsing
@@ -218,9 +231,10 @@ Templates are pre-configured for:
 - **chalk** - Terminal colors and formatting
 
 ### Templates
+
 - **Turborepo** - Monorepo build system and task runner
-- **Next.js 15** - React framework with App Router
-- **Expo 54** - React Native development platform  
+- **Next.js 16** - React framework with App Router
+- **Expo 54** - React Native development platform
 - **Tailwind CSS 4** - Utility-first CSS framework
 - **TypeScript 5.9** - Static type checking
 - **Zod** - Schema validation
@@ -229,6 +243,7 @@ Templates are pre-configured for:
 ## Testing Strategy
 
 The CLI tool uses **Vitest** for testing:
+
 - Unit tests for utility functions
 - Integration tests for template generation
 - Coverage reporting available via `test:coverage` script

@@ -60,7 +60,7 @@ bun dev
 
 - **Next.js 16** web application with App Router
 - **Expo 54** mobile app for iOS and Android
-- **Node.js** serverless APIs with Vercel deployment
+- **Node.js 22** serverless APIs with Vercel deployment
 
 ### 🎨 **Modern UI/UX**
 
@@ -72,8 +72,8 @@ bun dev
 
 ### 🛠️ **Developer Experience**
 
-- **TypeScript** for type safety
-- **ESLint** and **Prettier** for code quality
+- **TypeScript 5** for type safety
+- **ESLint 9** and **Prettier 3** for code quality
 - **React Compiler** for optimized builds
 - Hot reload and fast refresh
 - Comprehensive tooling and scripts

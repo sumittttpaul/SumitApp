@@ -125,21 +125,21 @@ bun clean            # Clean all build artifacts (Note: Before cleaning, ensure 
 
 ```bash
 # Website (Next.js)
-bun --filter=website dev
+bun --cwd=projects/website dev
 cd projects/website
 bun dev              # Start development server
 bun run build        # Build for production
 bun start            # Start production server
 
 # Mobile (Expo)
-bun --filter=mobile dev
+bun --cwd=projects/mobile dev
 cd projects/mobile
 bun dev              # Start Expo development server
 bun android          # Run on Android device/emulator
 bun ios              # Run on iOS device/simulator
 
 # Backend (Node.js)
-bun --filter=backend dev
+bun --cwd=projects/backend dev
 cd projects/backend
 bun dev              # Start development server
 bun run build        # Build for production
@@ -270,16 +270,16 @@ Once configured, Vercel will automatically:
 
 - **Expo 54** - React Native development platform
 - **React Native 0.81** - Cross-platform mobile framework
-- **NativeWind** - Tailwind CSS for React Native
+- **NativeWind 5** - TailwindCSS 4 for React Native
 - **React Native Paper** - Material Design components
 - **Expo Router** - File-based routing
 
 ### **Backend**
 
-- **Node.js** - JavaScript runtime
+- **Node.js 22** - JavaScript runtime
 - **Express 5** - Web framework
 - **Vercel** - Serverless deployment platform
-- **TypeScript** - Type-safe JavaScript
+- **TypeScript 5** - Type-safe JavaScript
 
 ### **Development Tools**
 

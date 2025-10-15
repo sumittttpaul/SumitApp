@@ -14,12 +14,12 @@ bun install
 bun install --frozen-lockfile
 
 # Add packages to specific workspaces
-bun add ---package-name-goes-here--- --cwd projects/website
-bun add ---package-name-goes-here--- --cwd projects/backend
-bun add ---package-name-goes-here--- --dev --cwd projects/website
+bun --cwd projects/website add ---package-name-goes-here---
+bun --cwd projects/backend add ---package-name-goes-here---
+bun --dev --cwd projects/website add ---package-name-goes-here---
 
 # Remove packages
-bun remove ---package-name-goes-here--- --cwd projects/website
+bun --cwd projects/website remove ---package-name-goes-here---
 
 # Update packages
 bun update

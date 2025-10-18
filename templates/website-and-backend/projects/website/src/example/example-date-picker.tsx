@@ -2,7 +2,7 @@
 
 import DropDownMenu from "@/components/dropdown-menu";
 import { Calendar } from "@/components/ui/calendar";
-import useStateX from "@/hooks/use-state-x";
+import { useStateX } from "@packages/hooks";
 
 export default function ExampleDatePicker({ value, onChange }: { value?: Date; onChange?: (e?: Date) => void }) {
   const [open, setOpen] = useStateX(false);

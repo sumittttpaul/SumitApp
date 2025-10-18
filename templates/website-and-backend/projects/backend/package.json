@@ -12,6 +12,7 @@
     "clean": "rimraf --glob .turbo dist node_modules tsconfig.tsbuildinfo"
   },
   "dependencies": {
+    "@packages/hooks": "workspace:^",
     "@packages/utils": "workspace:^",
     "@packages/validations": "workspace:^",
     "@vercel/node": "^5.3.24",

@@ -1,7 +1,7 @@
 import { useObservable, useSelector } from "@legendapp/state/react";
 import type { Observable, Selector } from "@legendapp/state";
 
-export default function useStateX<S>(initialState: S | (() => S)): [{ peek: S; get: () => S }, React.Dispatch<React.SetStateAction<S>>] {
+export function useStateX<S>(initialState: S | (() => S)): [{ peek: S; get: () => S }, React.Dispatch<React.SetStateAction<S>>] {
   const observable = useObservable(initialState) as Observable<S | (() => S)> & { set: React.Dispatch<React.SetStateAction<S>> };
   const snapshot = useSelector(observable as Selector<S>);
   const getValue = () => observable.get() as S;

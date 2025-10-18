@@ -1,5 +1,5 @@
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import useStateX from "@/hooks/use-state-x";
+import { useStateX } from "@packages/hooks";
 import Button from "@/components/button";
 import { Text } from "react-native";
 

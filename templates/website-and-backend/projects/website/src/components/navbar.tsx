@@ -1,7 +1,7 @@
 "use client";
 
 import { useSelector } from "@legendapp/state/react";
-import useStateX from "@/hooks/use-state-x";
+import { useStateX } from "@packages/hooks";
 import { usePathname } from "next/navigation";
 import { useMediaQuery } from "@mui/material";
 import NavState from "@/states/nav-state";

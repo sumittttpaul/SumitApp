@@ -1,7 +1,7 @@
 import Animated, { useAnimatedStyle, withSpring, useSharedValue, useAnimatedReaction } from "react-native-reanimated";
 import { ActivityIndicator, Pressable, View, LayoutChangeEvent, ViewStyle } from "react-native";
-import useStableCallback from "@/hooks/use-stable-callback";
-import useStateX from "@/hooks/use-state-x";
+import { useStableCallback } from "@packages/hooks";
+import { useStateX } from "@packages/hooks";
 import { Href, Link } from "expo-router";
 import { cn } from "@packages/utils";
 import { useEffect } from "react";

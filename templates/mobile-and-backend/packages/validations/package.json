@@ -24,6 +24,6 @@
     "@packages/types": "workspace:^",
     "@packages/typescript-config": "workspace:^",
     "@types/zxcvbn": "^4.4.5",
-    "eslint": "^9.35.0"
+    "eslint": "^9.38.0"
   }
 }

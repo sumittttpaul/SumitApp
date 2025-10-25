@@ -11,16 +11,8 @@ export default [
   { ignores: ["**/eslint.config.*"] },
   {
     files: ["**/*.{js,ts,mjs,cjs}"],
-    languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.es2022,
-      },
-    },
-    plugins: {
-      n: pluginNode,
-      import: importPlugin,
-    },
+    languageOptions: { globals: { ...globals.node, ...globals.es2022 } },
+    plugins: { n: pluginNode, import: importPlugin },
     rules: {
       // Node.js specific rules
       "n/no-unsupported-features/node-builtins": "error",
@@ -31,10 +23,10 @@ export default [
       // Allow console in serverless functions
       "no-console": "off",
 
-      // Vercel/serverless specific
+      // Allow default export
       "import/no-default-export": "off",
 
-      // Relax some TypeScript rules for API
+      // Relax some TypeScript rules
       "@typescript-eslint/no-unsafe-assignment": "warn",
       "@typescript-eslint/no-unsafe-member-access": "warn",
       "@typescript-eslint/no-unsafe-call": "warn",

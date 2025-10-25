@@ -14,7 +14,7 @@
     "clean": "rimraf --glob .turbo dist node_modules tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@legendapp/state": "^3.0.0-beta.32",
+    "@legendapp/state": "^3.0.0-beta.40",
     "@packages/utils": "workspace:^",
     "react": "19.1.0"
   },
@@ -23,6 +23,6 @@
     "@packages/types": "workspace:^",
     "@packages/typescript-config": "workspace:^",
     "@types/react": "19.1.10",
-    "eslint": "^9.35.0"
+    "eslint": "^9.38.0"
   }
 }

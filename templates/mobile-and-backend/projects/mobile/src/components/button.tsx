@@ -99,6 +99,7 @@ export default function Button({
   useAnimatedReaction(
     () => isDisabled.value,
     (currentDisabled) => {
+      // eslint-disable-next-line react-hooks/immutability
       opacity.value = withSpring(currentDisabled ? 0.5 : 1, {
         damping: 8,
         stiffness: 30,

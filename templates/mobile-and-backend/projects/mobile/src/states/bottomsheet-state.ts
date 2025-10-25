@@ -7,7 +7,6 @@
 import type GorhomBottomSheet from "@gorhom/bottom-sheet";
 import type { Observable } from "@legendapp/state";
 import { observable } from "@legendapp/state";
-import { useEffect } from "react";
 
 type Props = {
   ref?: React.RefObject<GorhomBottomSheet | null>;
@@ -21,7 +20,6 @@ type SheetStore<T extends object> = {
 };
 
 type BottomSheetStateReturn = {
-  InitializeBottomSheet: (setRef: () => void) => void;
   exampleBottomSheet: Observable<Props & { selectedItem?: string }>;
   setExampleBottomSheet: (v: Partial<Props & { selectedItem?: string }>) => void;
   openExampleBottomSheet: () => void;
@@ -54,12 +52,6 @@ function makeSheetStore<T extends object = {}>(extra: T = {} as T): SheetStore<T
   return { state$: typedState$, set, open, close };
 }
 
-function InitializeBottomSheet(setRef: () => void) {
-  useEffect(() => {
-    setRef();
-  }, []);
-}
-
 const {
   state$: ExampleBottomSheetState$,
   set: setExampleBottomSheet,
@@ -69,7 +61,6 @@ const {
 
 export default function BottomSheetState(): BottomSheetStateReturn {
   return {
-    InitializeBottomSheet,
     exampleBottomSheet: ExampleBottomSheetState$,
     setExampleBottomSheet,
     openExampleBottomSheet,

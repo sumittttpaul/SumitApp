@@ -3,13 +3,16 @@ import { useSelector } from "@legendapp/state/react";
 import BottomSheet from "@/components/bottom-sheet";
 import Button from "@/components/button";
 import { Text } from "react-native";
+import { useEffect } from "react";
 import { useRef } from "react";
 
 export function ExampleBottomSheetContent() {
-  const { InitializeBottomSheet, setExampleBottomSheet } = useSelector(BottomSheetState);
+  const { setExampleBottomSheet } = useSelector(BottomSheetState);
   const bottomSheet = useRef(null);
 
-  InitializeBottomSheet(() => setExampleBottomSheet({ ref: bottomSheet }));
+  useEffect(() => {
+    setExampleBottomSheet({ ref: bottomSheet });
+  }, []);
 
   return (
     <BottomSheet ref={bottomSheet} className="pt-10">

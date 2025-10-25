@@ -79,7 +79,7 @@ cd create-sumit-app && bun test           # Run Vitest test suite
 cd create-sumit-app && bun test:coverage  # Generate coverage report
 
 # Build and publish
-cd create-sumit-app && bun build          # Compile TypeScript to dist/
+cd create-sumit-app && bun run build      # Compile TypeScript to dist/
 cd create-sumit-app && bun lint           # Run ESLint
 cd create-sumit-app && bun format         # Format with Prettier
 
@@ -95,7 +95,7 @@ cd official-site && bun dev               # Start dev server with Turbopack
 cd official-site && bun dev:debug         # Start with Node inspector
 
 # Production
-cd official-site && bun build            # Build for production
+cd official-site && bun run build        # Build for production
 cd official-site && bun start            # Start production server
 
 # Code quality
@@ -112,11 +112,11 @@ npx create-sumit-app test-project
 cd test-project
 
 # Monorepo commands (what users run)
-bun dev              # Start all projects in development
-bun build            # Build all projects
-bun lint             # Lint all projects
-bun check-types      # Type check all projects
-bun clean            # Clean build artifacts
+bun dev                  # Start all projects in development
+bun run build            # Build all projects
+bun lint                 # Lint all projects
+bun check-types          # Type check all projects
+bun clean                # Clean build artifacts
 
 # Individual project commands
 bun --cwd=projects/website dev     # Next.js only
@@ -368,9 +368,9 @@ cd create-sumit-app && bun test:coverage
 npx create-sumit-app test-project
 cd test-project
 bun install
-bun dev        # Should start all projects
-bun build      # Should build without errors
-bun lint       # Should pass
+bun dev            # Should start all projects
+bun run build      # Should build without errors
+bun lint           # Should pass
 ```
 
 ## Deployment & Distribution

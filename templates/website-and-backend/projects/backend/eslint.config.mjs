@@ -1,4 +1,4 @@
-import nodeConfig, { createConfigFileRule, createTypeAwareConfig } from "@packages/eslint-config/node";
+import nodejsConfig, { createConfigFileRule, createTypeAwareConfig } from "@packages/eslint-config/nodejs";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -6,13 +6,13 @@ export default [
   createConfigFileRule(),
 
   // Base Node.js config
-  ...nodeConfig,
+  ...nodejsConfig,
 
   // Type-aware config for this project
   createTypeAwareConfig(import.meta.dirname),
 
   {
-    files: ["**/*.{js,ts,mjs,cjs}"],
+    files: ["**/*.{js,ts}"],
     // API-specific rules
     rules: {
       // Add any API-specific rule overrides here

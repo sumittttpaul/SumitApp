@@ -1,10 +1,14 @@
 import componentsConfig, { createConfigFileRule, createTypeAwareConfig } from "./components.mjs";
+import pluginReactNative from "eslint-plugin-react-native";
+import pluginJsxA11y from "eslint-plugin-jsx-a11y";
+import importPlugin from "eslint-plugin-import";
+import tsEslint from "typescript-eslint";
 import globals from "globals";
 
 export { createConfigFileRule, createTypeAwareConfig };
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+const expoConfig = [
   ...componentsConfig,
   {
     files: ["**/*.{js,ts,jsx,tsx}"],
@@ -28,22 +32,28 @@ export default [
         cancelAnimationFrame: "readonly",
       },
     },
+    plugins: {
+      import: importPlugin,
+      "jsx-a11y": pluginJsxA11y,
+      "react-native": pluginReactNative,
+      "@typescript-eslint": tsEslint.plugin,
+    },
     rules: {
       "@typescript-eslint/triple-slash-reference": "off",
-      "no-console": "off",
       "import/no-relative-parent-imports": "off",
+      "no-console": "off",
 
       // React Native specific
-      "react-native/no-inline-styles": "off",
       "react-native/no-color-literals": "off",
+      "react-native/no-inline-styles": "off",
       "react-native/no-raw-text": "off",
 
       // Relax some rules for React Native
-      "jsx-a11y/accessible-emoji": "off",
-      "jsx-a11y/aria-role": "off",
-      "jsx-a11y/aria-props": "off",
-      "jsx-a11y/aria-proptypes": "off",
       "jsx-a11y/aria-unsupported-elements": "off",
+      "jsx-a11y/accessible-emoji": "off",
+      "jsx-a11y/aria-proptypes": "off",
+      "jsx-a11y/aria-props": "off",
+      "jsx-a11y/aria-role": "off",
     },
   },
   {
@@ -62,3 +72,5 @@ export default [
     ],
   },
 ];
+
+export default expoConfig;

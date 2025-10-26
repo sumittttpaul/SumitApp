@@ -74,22 +74,6 @@ const createTypeAwareConfig = (tsconfigRootDir) => ({
 
 /** @type {import('eslint').Linter.Config[]} */
 const baseConfig = [
-  // Global ignores
-  {
-    ignores: [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/build/**",
-      "**/.turbo/**",
-      "**/coverage/**",
-      "**/.next/**",
-      "**/.expo/**",
-      "**/out/**",
-      "**/.vercel/**",
-      "**/*.json",
-    ],
-  },
-
   // Base JavaScript config - applies to all files initially
   eslintJs.configs.recommended,
 
@@ -120,18 +104,11 @@ const baseConfig = [
     files: ["**/*.{ts,tsx}"],
     ignores: ["**/*.config.*"],
     languageOptions: {
-      parser: tsEslint.parser,
-      ecmaVersion: "latest",
       sourceType: "module",
+      ecmaVersion: "latest",
+      parser: tsEslint.parser,
       globals: { ...globals.node },
       // Note: tsconfigRootDir will be set by createTypeAwareConfig helper
-    },
-    plugins: {
-      "@typescript-eslint": tsEslint.plugin,
-      n: pluginNode,
-      turbo: turboPlugin,
-      import: importPlugin,
-      prettier: prettierPlugin,
     },
     settings: {
       "import/resolver": {
@@ -142,6 +119,13 @@ const baseConfig = [
         node: true,
       },
       "import/internal-regex": "^(@packages|@projects)/",
+    },
+    plugins: {
+      n: pluginNode,
+      turbo: turboPlugin,
+      import: importPlugin,
+      prettier: prettierPlugin,
+      "@typescript-eslint": tsEslint.plugin,
     },
     rules: {
       // TypeScript rules
@@ -241,6 +225,22 @@ const baseConfig = [
 
   // Prettier config
   eslintConfigPrettier,
+
+  // Global ignores
+  {
+    ignores: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.turbo/**",
+      "**/coverage/**",
+      "**/.next/**",
+      "**/.expo/**",
+      "**/out/**",
+      "**/.vercel/**",
+      "**/*.json",
+    ],
+  },
 ];
 
 export { createConfigFileRule, createTypeAwareConfig };

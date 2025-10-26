@@ -6,28 +6,10 @@ import globals from "globals";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  // Global ignores
-  {
-    ignores: [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/build/**",
-      "**/.turbo/**",
-      "**/coverage/**",
-      "**/.next/**",
-      "**/.expo/**",
-      "**/out/**",
-      "**/.vercel/**",
-      "**/*.json",
-      "**/packages/**",
-      "**/projects/**",
-    ],
-  },
-
-  // Base JavaScript config for root level files only
+  // Base config for root level files only
   eslintJs.configs.recommended,
 
-  // Configuration for JavaScript config files at root level
+  // Configuration for config files at root level
   {
     files: [
       "*.config.{js,mjs,cjs}",
@@ -56,5 +38,23 @@ export default [
     rules: {
       // Add any root level specific rules here
     },
+  },
+
+  // Global ignores
+  {
+    ignores: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.turbo/**",
+      "**/coverage/**",
+      "**/.next/**",
+      "**/.expo/**",
+      "**/out/**",
+      "**/.vercel/**",
+      "**/*.json",
+      "**/packages/**",
+      "**/projects/**",
+    ],
   },
 ];

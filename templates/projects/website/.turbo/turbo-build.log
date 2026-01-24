@@ -1,0 +1,27 @@
+$ next build
+   ▲ Next.js 16.0.0 (Turbopack)
+   - Experiments (use with caution):
+     ✓ optimizeCss
+     · serverActions
+     ✓ turbopackFileSystemCacheForDev
+     · webVitalsAttribution
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 7.2s
+   Running TypeScript ...
+   Collecting page data ...
+   Generating static pages (0/5) ...
+   Generating static pages (1/5) 
+   Generating static pages (2/5) 
+   Generating static pages (3/5) 
+ ✓ Generating static pages (5/5) in 1023.3ms
+   Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+└ ○ /bonus
+
+
+○  (Static)  prerendered as static content
+

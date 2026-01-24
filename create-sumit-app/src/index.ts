@@ -11,8 +11,18 @@ import degit from 'degit';
 import path from 'path';
 import ora from 'ora';
 
-import { TEMPLATES, getTemplate, listTemplates } from './lib/templates.js';
-import { CreateProjectOptions, Template, Config } from './types/index.js';
+import {
+  PROJECTS,
+  PRESETS,
+  BASE_TEMPLATE,
+  getPreset,
+  getProject,
+  listPresets,
+  listProjects,
+  getTemplate,
+  listTemplates,
+} from './lib/templates.js';
+import { CreateProjectOptions, Preset, Config } from './types/index.js';
 import { Logger } from './lib/logger.js';
 import {
   loadConfig,
@@ -27,19 +37,14 @@ import {
   isDirectoryEmpty,
   validateProjectName,
   formatDuration,
-  // initializeGitRepository,
 } from './lib/utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function getTemplatePath(template: Template): string {
-  return template.path || `templates/${template.name}`;
-}
-
 async function cleanupGitDirectory(
   projectPath: string,
-  logger: Logger
+  logger: Logger,
 ): Promise<void> {
   const gitDir = path.join(projectPath, '.git');
 
@@ -59,12 +64,10 @@ async function cleanupGitDirectory(
       if (error.code === 'EBUSY' || error.code === 'EPERM') {
         if (retries > 0) {
           logger.verbose(
-            `Git cleanup failed, retrying... (${retries} attempts left)`
+            `Git cleanup failed, retrying... (${retries} attempts left)`,
           );
-          // Wait a bit before retrying
           await new Promise((resolve) => setTimeout(resolve, 1000));
 
-          // Try to make files writable on Windows
           try {
             await makeGitFilesWritable(gitDir);
           } catch (chmodError) {
@@ -73,12 +76,11 @@ async function cleanupGitDirectory(
         } else {
           logger.warn('Could not remove .git directory automatically');
           logger.info(
-            'You may need to manually delete the .git folder if it exists'
+            'You may need to manually delete the .git folder if it exists',
           );
           return;
         }
       } else {
-        // For other errors, just warn and continue
         logger.verbose(`Git cleanup error: ${error.message}`);
         return;
       }
@@ -86,7 +88,6 @@ async function cleanupGitDirectory(
   }
 }
 
-// Helper function to make git files writable
 async function makeGitFilesWritable(gitDir: string): Promise<void> {
   try {
     const files = await fs.readdir(gitDir, { withFileTypes: true });
@@ -98,7 +99,7 @@ async function makeGitFilesWritable(gitDir: string): Promise<void> {
         await makeGitFilesWritable(fullPath);
       } else {
         try {
-          await fs.chmod(fullPath, 0o666); // Make file writable
+          await fs.chmod(fullPath, 0o666);
         } catch (error) {
           // Ignore individual file errors
         }
@@ -112,38 +113,24 @@ async function makeGitFilesWritable(gitDir: string): Promise<void> {
 async function selectPackageManager(
   config: Config,
   logger: Logger,
-  packageManagerName?: string
+  packageManagerName?: string,
 ): Promise<string> {
-  // Available package managers with descriptions
   const availableManagers = [
     {
       name: 'bun',
       description: '⚡ Ultra-fast JavaScript runtime and package manager',
     },
-    // {
-    //   name: 'pnpm',
-    //   description: '📦 Fast, disk space efficient package manager',
-    // },
-    // {
-    //   name: 'yarn',
-    //   description: '🐈 Fast, reliable, and secure dependency management',
-    // },
-    // {
-    //   name: 'npm',
-    //   description: '📦 Simple and widely used Node.js package manager',
-    // },
   ];
 
-  // If package manager specified via CLI, use it
   if (packageManagerName) {
     const manager = availableManagers.find(
-      (m) => m.name === packageManagerName
+      (m) => m.name === packageManagerName,
     );
     if (!manager) {
       logger.error(`Package manager "${packageManagerName}" not found.`);
       logger.info('Available package managers:');
       availableManagers.forEach((m) =>
-        logger.info(`  • ${m.name} - ${m.description}`)
+        logger.info(`  • ${m.name} - ${m.description}`),
       );
       process.exit(1);
     }
@@ -151,15 +138,13 @@ async function selectPackageManager(
     return manager.name;
   }
 
-  // If default package manager in config, use it
   if (config.packageManager) {
     logger.verbose(
-      `Using config default package manager: ${config.packageManager}`
+      `Using config default package manager: ${config.packageManager}`,
     );
     return config.packageManager;
   }
 
-  // Check for lockfiles in the CURRENT directory for auto-detection
   const lockFiles = [
     { name: 'bun', file: 'bun.lockb' },
     { name: 'pnpm', file: 'pnpm-lock.yaml' },
@@ -174,7 +159,6 @@ async function selectPackageManager(
     }
   }
 
-  // Interactive selection (no auto-detection from global availability)
   logger.newLine();
   logger.log('📦 Choose a package manager:');
 
@@ -187,7 +171,7 @@ async function selectPackageManager(
       description: manager.description,
       value: manager.name,
     })),
-    initial: 0, // Default to bun (first option)
+    initial: 0,
   });
 
   if (!selectedManager) {
@@ -198,59 +182,128 @@ async function selectPackageManager(
   return selectedManager;
 }
 
-async function selectTemplate(
+async function selectPresetOrProjects(
   config: Config,
   logger: Logger,
-  templateName?: string
-): Promise<Template> {
-  // If template specified via CLI, use it
-  if (templateName) {
-    const template = getTemplate(templateName);
-    if (!template) {
-      logger.error(`Template "${templateName}" not found.`);
-      logger.info('Available templates:');
-      TEMPLATES.forEach((t) => logger.info(`  • ${t.name} - ${t.description}`));
+  presetName?: string,
+  projectNames?: string[],
+): Promise<string[]> {
+  // If specific projects provided via CLI, use them
+  if (projectNames && projectNames.length > 0) {
+    const validProjects = projectNames.filter((p) => PROJECTS[p]);
+    if (validProjects.length !== projectNames.length) {
+      const invalid = projectNames.filter((p) => !PROJECTS[p]);
+      logger.error(`Invalid project(s): ${invalid.join(', ')}`);
+      logger.info(`Available projects: ${Object.keys(PROJECTS).join(', ')}`);
       process.exit(1);
     }
-    return template;
+    return validProjects;
   }
 
-  // If default template in config, use it
-  if (config.defaultTemplate) {
-    const template = getTemplate(config.defaultTemplate);
-    if (template) {
-      logger.verbose(`Using default template: ${template.name}`);
-      return template;
+  // If preset specified via CLI, use it
+  if (presetName) {
+    const preset = getPreset(presetName);
+    if (!preset) {
+      logger.error(`Preset "${presetName}" not found.`);
+      logger.info('Available presets:');
+      PRESETS.forEach((p) => logger.info(`  • ${p.name} - ${p.description}`));
+      process.exit(1);
+    }
+    if (preset.name === 'custom') {
+      return await selectProjects(logger);
+    }
+    return preset.projects;
+  }
+
+  // If default preset in config, use it
+  if (config.defaultPreset) {
+    const preset = getPreset(config.defaultPreset);
+    if (preset && preset.name !== 'custom') {
+      logger.verbose(`Using default preset: ${preset.name}`);
+      return preset.projects;
     }
   }
 
-  // Interactive selection
-  // logger.newLine();
-  logger.log('🎨 Choose a template for your project:');
+  // Interactive project selection - show multi-select checkboxes directly
+  return await selectProjects(logger);
+}
 
-  const { selectedTemplate } = await prompts({
-    type: 'select',
-    name: 'selectedTemplate',
-    message: 'Select a template',
-    choices: TEMPLATES.map((template, index) => ({
-      title: `${template.name}`,
-      description: template.description,
-      value: template,
+async function selectProjects(logger: Logger): Promise<string[]> {
+  logger.log(
+    '📦 Select projects to include (space to toggle, enter to confirm):',
+  );
+
+  const { selectedProjects } = await prompts({
+    type: 'multiselect',
+    name: 'selectedProjects',
+    message: 'Choose projects',
+    choices: Object.values(PROJECTS).map((project) => ({
+      title: project.name,
+      description: project.description,
+      value: project.name,
+      selected: true, // All selected by default
     })),
-    initial: 0,
+    min: 1,
+    hint: '- Space to toggle, Enter to confirm',
   });
 
-  if (!selectedTemplate) {
-    logger.error('Template selection cancelled');
+  if (!selectedProjects || selectedProjects.length === 0) {
+    logger.error('At least one project must be selected');
     process.exit(0);
   }
 
-  return selectedTemplate;
+  return selectedProjects;
+}
+
+function generatePackageJson(
+  projectName: string,
+  selectedProjects: string[],
+): object {
+  const hasMobile = selectedProjects.includes('mobile');
+
+  const packageJson: any = {
+    name: projectName,
+    version: '1.0.0',
+    private: true,
+    strict: true,
+    scripts: {
+      dev: 'turbo run dev',
+      build: 'turbo run build',
+      lint: 'turbo run lint',
+      format: 'prettier --write .',
+      'check-types': 'turbo run check-types',
+      clean: 'turbo run clean && node scripts/clean.js && bun pm cache rm',
+    },
+    devDependencies: {
+      '@packages/eslint-config': 'workspace:^',
+      '@packages/typescript-config': 'workspace:^',
+      '@types/node': '^22.18.12',
+      prettier: '^3.6.2',
+      'prettier-plugin-tailwindcss': '^0.7.1',
+      rimraf: '^6.0.1',
+      turbo: '^2.5.8',
+      typescript: '^5.9.3',
+    },
+    engines: {
+      node: '>=22',
+    },
+    workspaces: ['projects/*', 'packages/*'],
+    packageManager: 'bun@1.2.22',
+  };
+
+  // Add expo-dev-menu resolution only if mobile project is selected
+  if (hasMobile) {
+    packageJson.resolutions = {
+      'expo-dev-menu': '^7.0.10',
+    };
+  }
+
+  return packageJson;
 }
 
 async function createProject(
   projectName?: string,
-  options: CreateProjectOptions = {}
+  options: CreateProjectOptions = {},
 ) {
   const startTime = Date.now();
   const logger = new Logger(options.verbose);
@@ -264,6 +317,16 @@ async function createProject(
     await checkForUpdates(logger);
   }
 
+  // Handle legacy --template option
+  let presetName = options.preset;
+  if (options.template && !presetName) {
+    const template = getTemplate(options.template);
+    if (template) {
+      presetName = template.name;
+      logger.warn(`--template is deprecated, use --preset instead`);
+    }
+  }
+
   let targetDir = projectName;
 
   // Handle project name
@@ -275,10 +338,7 @@ async function createProject(
       initial: 'my-sumit-app',
       validate: async (value: string) => {
         if (!value.trim()) return 'Project name is required';
-
-        // Allow dot (.) for current directory
         if (value === '.') return true;
-
         const validation = await validateProjectName(value);
         return validation.valid || validation.message!;
       },
@@ -291,7 +351,6 @@ async function createProject(
 
     targetDir = inputName;
   } else {
-    // Validate provided project name (allow dot for current directory)
     if (targetDir !== '.') {
       const validation = await validateProjectName(targetDir);
       if (!validation.valid) {
@@ -301,52 +360,48 @@ async function createProject(
     }
   }
 
-  // Type guard to ensure targetDir is defined
   if (!targetDir) {
     logger.error('Project name is required');
     process.exit(1);
   }
 
   // Handle current directory installation
-  let resolvedProjectPath: string; // ← Changed name to avoid conflict
-  let displayPath: string; // ← Changed name to avoid conflict
+  let resolvedProjectPath: string;
+  let displayPath: string;
 
   if (targetDir === '.') {
-    // Install in current directory
     resolvedProjectPath = process.cwd();
     displayPath = 'current directory';
 
-    // Validate current directory name for package.json compatibility
     const currentDirName = path.basename(resolvedProjectPath);
     const validation = await validateProjectName(currentDirName);
     if (!validation.valid) {
       logger.error(
-        `Current directory name "${currentDirName}" is not a valid package name.`
+        `Current directory name "${currentDirName}" is not a valid package name.`,
       );
       logger.error(validation.message!);
       logger.info(
-        'Please rename your directory to use lowercase letters, numbers, hyphens, underscores, and dots only.'
+        'Please rename your directory to use lowercase letters, numbers, hyphens, underscores, and dots only.',
       );
       process.exit(1);
     }
   } else {
-    // Install in new directory
     resolvedProjectPath = path.resolve(process.cwd(), targetDir);
     const relativeProjectPath = path.relative(
       process.cwd(),
-      resolvedProjectPath
+      resolvedProjectPath,
     );
     displayPath = relativeProjectPath || 'current directory';
   }
 
   logger.newLine();
-  logger.step(1, 4, `Creating project in ${chalk.cyan(displayPath)}`);
+  logger.step(1, 5, `Creating project in ${chalk.cyan(displayPath)}`);
 
   // Check if directory exists and is not empty
   if (await fs.pathExists(resolvedProjectPath)) {
     if (!(await isDirectoryEmpty(resolvedProjectPath))) {
       logger.error(
-        `Directory "${targetDir === '.' ? 'current directory' : targetDir}" already exists and is not empty.`
+        `Directory "${targetDir === '.' ? 'current directory' : targetDir}" already exists and is not empty.`,
       );
 
       const { overwrite } = await prompts({
@@ -357,7 +412,6 @@ async function createProject(
       });
 
       if (overwrite) {
-        // Add spinner while deleting files
         const deleteSpinner = ora({
           text: 'Removing existing files...',
           spinner: 'dots',
@@ -378,112 +432,125 @@ async function createProject(
     }
   }
 
-  // Select template
+  // Select preset or custom projects
   logger.newLine();
-  const template = await selectTemplate(config, logger, options.template);
+  const selectedProjects = await selectPresetOrProjects(
+    config,
+    logger,
+    presetName,
+    options.projects,
+  );
+
   logger.newLine();
-  logger.step(2, 4, `Using template: ${chalk.cyan(template.name)}`);
+  logger.step(
+    2,
+    5,
+    `Selected projects: ${chalk.cyan(selectedProjects.join(', '))}`,
+  );
 
-  // Show template features
-  if (options.verbose) {
-    logger.box(
-      template.features.map((f) => `• ${f}`).join('\n'),
-      `✨ ${template.name} template's features`
-    );
-  }
-
-  // Clone template with sparse checkout for subdirectories
-  const downloadSpinner = ora({
-    text: 'Downloading template...',
+  // Download base template
+  const baseSpinner = ora({
+    text: 'Downloading base template...',
     spinner: 'dots12',
   }).start();
 
   try {
-    logger.verbose(`Downloading from: ${template.url}`);
-
-    // Ensure target directory is ready
-    if (targetDir !== '.' && (await fs.pathExists(resolvedProjectPath))) {
-      await fs.remove(resolvedProjectPath);
-    }
-
-    // Ensure directory exists
     await fs.ensureDir(resolvedProjectPath);
 
-    // For templates with subdirectories, use degit
-    if (template.url.includes('SumitApp.git')) {
-      const templatePath = getTemplatePath(template);
+    const repoMatch = BASE_TEMPLATE.url.match(
+      /github\.com[\/:]([\w-]+)\/([\w-]+)/,
+    );
+    if (!repoMatch) {
+      throw new Error('Invalid GitHub repository URL');
+    }
 
-      // Extract repo info from URL
-      // https://github.com/sumittttpaul/SumitApp.git -> sumittttpaul/SumitApp
-      const repoMatch = template.url.match(/github\.com[/:]([\w-]+)\/([\w-]+)/);
+    const [, owner, repo] = repoMatch;
+    const repoPath = `${owner}/${repo.replace('.git', '')}/${BASE_TEMPLATE.path}`;
+
+    const emitter = degit(repoPath, {
+      cache: false,
+      force: true,
+      verbose: options.verbose,
+    });
+
+    await emitter.clone(resolvedProjectPath);
+
+    baseSpinner.succeed(chalk.green('Base template downloaded!'));
+  } catch (error: any) {
+    baseSpinner.fail(chalk.red('Failed to download base template'));
+    logger.error(`Download failed: ${error.message || error}`);
+    process.exit(1);
+  }
+
+  // Download selected projects
+  logger.newLine();
+  logger.step(3, 5, 'Downloading selected projects...');
+
+  const projectsDir = path.join(resolvedProjectPath, 'projects');
+  await fs.ensureDir(projectsDir);
+
+  for (const projectName of selectedProjects) {
+    const project = PROJECTS[projectName];
+    const projectSpinner = ora({
+      text: `Downloading ${projectName}...`,
+      spinner: 'dots',
+    }).start();
+
+    try {
+      const repoMatch = BASE_TEMPLATE.url.match(
+        /github\.com[\/:]([\w-]+)\/([\w-]+)/,
+      );
       if (!repoMatch) {
         throw new Error('Invalid GitHub repository URL');
       }
 
       const [, owner, repo] = repoMatch;
-      const repoPath = `${owner}/${repo.replace('.git', '')}/${templatePath}`;
+      const repoPath = `${owner}/${repo.replace('.git', '')}/${project.path}`;
 
-      // degit downloads ONLY this specific folder
       const emitter = degit(repoPath, {
         cache: false,
         force: true,
         verbose: options.verbose,
       });
 
-      // Download directly to target directory
-      await emitter.clone(resolvedProjectPath);
+      const projectTargetPath = path.join(projectsDir, project.name);
+      await emitter.clone(projectTargetPath);
 
-      logger.verbose(`Downloaded template from: ${repoPath}`);
-    } else {
-      // For standalone repos, still use degit
-      const repoMatch = template.url.match(/github\.com[/:]([\w-]+)\/([\w-]+)/);
-      if (repoMatch) {
-        const [, owner, repo] = repoMatch;
-        const emitter = degit(`${owner}/${repo.replace('.git', '')}`, {
-          cache: false,
-          force: true,
-          verbose: options.verbose,
-        });
-        await emitter.clone(resolvedProjectPath);
-      } else {
-        throw new Error('Invalid repository URL');
-      }
+      projectSpinner.succeed(chalk.green(`Downloaded ${projectName}`));
+    } catch (error: any) {
+      projectSpinner.fail(chalk.red(`Failed to download ${projectName}`));
+      logger.error(`Download failed: ${error.message || error}`);
+      process.exit(1);
     }
-
-    downloadSpinner.succeed(chalk.green('Template downloaded successfully!'));
-  } catch (error: any) {
-    downloadSpinner.fail(chalk.red('Failed to download template'));
-    logger.error(`Download failed: ${error.message || error}`);
-    logger.info(
-      'Make sure the repository and template folder exist and are accessible.'
-    );
-
-    // Clean up failed download
-    try {
-      if (await fs.pathExists(resolvedProjectPath)) {
-        await fs.remove(resolvedProjectPath);
-      }
-    } catch (cleanupError) {
-      // Ignore
-    }
-
-    process.exit(1);
   }
+
+  // Generate package.json based on selected projects
+  const actualProjectName =
+    targetDir === '.' ? path.basename(resolvedProjectPath) : targetDir;
+  const packageJsonContent = generatePackageJson(
+    actualProjectName,
+    selectedProjects,
+  );
+  await fs.writeJson(
+    path.join(resolvedProjectPath, 'package.json'),
+    packageJsonContent,
+    { spaces: 2 },
+  );
+  logger.verbose('Generated package.json with correct configuration');
 
   // Clean up git directory
   await cleanupGitDirectory(resolvedProjectPath, logger);
-  logger.verbose('Removed template .git directory');
 
   // Detect/Select package manager
   const packageManager = await selectPackageManager(
     config,
     logger,
-    options.packageManager
+    options.packageManager,
   );
   const pmInfo = getPackageManagerInfo(packageManager as any);
 
   logger.newLine();
-  logger.step(3, 4, `Using package manager: ${chalk.cyan(packageManager)}`);
+  logger.step(4, 5, `Using package manager: ${chalk.cyan(packageManager)}`);
 
   // Install dependencies
   if (!options.skipInstall) {
@@ -498,7 +565,7 @@ async function createProject(
         stdio: options.verbose ? 'inherit' : 'pipe',
       });
       installSpinner.succeed(
-        chalk.green('Dependencies installed successfully!')
+        chalk.green('Dependencies installed successfully!'),
       );
     } catch (error) {
       installSpinner.fail(chalk.red('Failed to install dependencies'));
@@ -511,60 +578,37 @@ async function createProject(
     logger.info('Skipped dependency installation');
   }
 
-  // Initialize git repository
-  // logger.step(4, 5, 'Initializing git repository...');
-  // logger.newLine();
-  // if (options.git !== false && config.git !== false) {
-  //   const gitSuccess = await initializeGitRepository(projectPath, logger);
-  //   if (gitSuccess) {
-  //     logger.success('Git repository initialized');
-  //   } else {
-  //     logger.warn(
-  //       'Git initialization failed, but project was created successfully'
-  //     );
-  //   }
-  // } else {
-  //   logger.info('Skipped git initialization');
-  // }
-
-  // Get the actual project name for display
-  const actualProjectName =
-    targetDir === '.' ? path.basename(resolvedProjectPath) : targetDir;
-
   // Success message
   const duration = formatDuration(Date.now() - startTime);
   logger.newLine();
-  logger.step(4, 4, 'Project setup complete!');
+  logger.step(5, 5, 'Project setup complete!');
 
   logger.newLine();
   logger.success(
-    `🎉 Successfully created ${chalk.green(actualProjectName)} in ${chalk.green(duration)}`
+    `🎉 Successfully created ${chalk.green(actualProjectName)} in ${chalk.green(duration)}`,
   );
   logger.newLine();
 
-  // Next steps - show actual commands based on directory
+  // Next steps
   const nextSteps: string[] = [];
 
   if (targetDir === '.') {
-    // Current directory - no cd command needed
     nextSteps.push(
-      `${pmInfo.command} ${pmInfo.name === 'npm' ? 'run ' : ''}dev`
+      `${pmInfo.command} ${pmInfo.name === 'npm' ? 'run ' : ''}dev`,
     );
   } else {
-    // New directory - include cd command
     nextSteps.push(`cd ${chalk.hex('#FFFFFF')(actualProjectName)}`);
     nextSteps.push(
-      `${pmInfo.command} ${pmInfo.name === 'npm' ? 'run ' : ''}dev`
+      `${pmInfo.command} ${pmInfo.name === 'npm' ? 'run ' : ''}dev`,
     );
   }
 
   if (options.skipInstall) {
-    // Insert install command at appropriate position
     const installCmd = `${pmInfo.command} ${pmInfo.installArgs.join(' ')}`;
     if (targetDir === '.') {
-      nextSteps.splice(0, 0, installCmd); // Add as first step
+      nextSteps.splice(0, 0, installCmd);
     } else {
-      nextSteps.splice(1, 0, installCmd); // Add after cd command
+      nextSteps.splice(1, 0, installCmd);
     }
   }
 
@@ -572,12 +616,101 @@ async function createProject(
     nextSteps
       .map((step, i) => `${i + 1}. ${chalk.hex('#FFE600FF')(step)}`)
       .join('\n'),
-    '🚀 Get started'
+    '🚀 Get started',
   );
 
   logger.newLine();
   logger.log('Happy coding! 🎨✨');
   logger.newLine();
+}
+
+async function addProject(
+  projectName: string,
+  options: { verbose?: boolean },
+): Promise<void> {
+  const logger = new Logger(options.verbose);
+
+  logger.banner();
+
+  // Validate project name
+  if (!PROJECTS[projectName]) {
+    logger.error(`Invalid project: ${projectName}`);
+    logger.info(`Available projects: ${Object.keys(PROJECTS).join(', ')}`);
+    process.exit(1);
+  }
+
+  // Check if we're in a SumitApp project
+  const projectsDir = path.join(process.cwd(), 'projects');
+  const packagesDir = path.join(process.cwd(), 'packages');
+
+  if (
+    !(await fs.pathExists(projectsDir)) ||
+    !(await fs.pathExists(packagesDir))
+  ) {
+    logger.error('This does not appear to be a SumitApp project.');
+    logger.info('Run this command from the root of your SumitApp project.');
+    process.exit(1);
+  }
+
+  // Check if project already exists
+  const targetPath = path.join(projectsDir, projectName);
+  if (await fs.pathExists(targetPath)) {
+    logger.error(`Project "${projectName}" already exists.`);
+    process.exit(1);
+  }
+
+  // Download the project
+  const spinner = ora({
+    text: `Adding ${projectName} project...`,
+    spinner: 'dots12',
+  }).start();
+
+  try {
+    const project = PROJECTS[projectName];
+    const repoMatch = BASE_TEMPLATE.url.match(
+      /github\.com[\/:]([\w-]+)\/([\w-]+)/,
+    );
+    if (!repoMatch) {
+      throw new Error('Invalid GitHub repository URL');
+    }
+
+    const [, owner, repo] = repoMatch;
+    const repoPath = `${owner}/${repo.replace('.git', '')}/${project.path}`;
+
+    const emitter = degit(repoPath, {
+      cache: false,
+      force: true,
+      verbose: options.verbose,
+    });
+    await emitter.clone(targetPath);
+
+    spinner.succeed(chalk.green(`Added ${projectName} project successfully!`));
+
+    // Update package.json if adding mobile (needs expo-dev-menu resolution)
+    if (projectName === 'mobile') {
+      const packageJsonPath = path.join(process.cwd(), 'package.json');
+      if (await fs.pathExists(packageJsonPath)) {
+        const packageJson = await fs.readJson(packageJsonPath);
+        if (!packageJson.resolutions) {
+          packageJson.resolutions = {};
+        }
+        if (!packageJson.resolutions['expo-dev-menu']) {
+          packageJson.resolutions['expo-dev-menu'] = '^7.0.10';
+          await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
+          logger.info('Updated package.json with expo-dev-menu resolution');
+        }
+      }
+    }
+
+    logger.newLine();
+    logger.info('Next steps:');
+    logger.info('  1. Run: bun install');
+    logger.info('  2. Run: bun dev');
+  } catch (error: any) {
+    spinner.fail(chalk.red(`Failed to add ${projectName} project`));
+    logger.error(error.message);
+    process.exit(1);
+  }
 }
 
 // CLI Setup
@@ -589,23 +722,41 @@ const CLI_VERSION = packageJson.version;
 program
   .name('create-sumit-app')
   .description(
-    "✨ A beautiful CLI to bootstrap projects from Sumit.app's project templates"
+    "✨ A beautiful CLI to bootstrap projects from Sumit.app's project templates",
   )
   .version(CLI_VERSION)
   .argument('[project-name]', 'The name of the project to create')
   .option(
-    '-t, --template <template>',
-    'Template to use (default, react-native, nextjs, minimal)'
+    '-p, --preset <preset>',
+    'Preset to use (default, mobile-and-backend, website-and-backend, custom)',
   )
   .option(
-    '-p, --package-manager <manager>',
-    'Package manager to use (npm, yarn, pnpm, bun)'
+    '--projects <projects>',
+    'Comma-separated list of projects (website, mobile, backend)',
+  )
+  .option('-m, --package-manager <manager>', 'Package manager to use (bun)')
+  .option('-v, --verbose', 'Enable verbose logging')
+  .option('--skip-install', 'Skip dependency installation')
+  .option('-t, --template <template>', '[DEPRECATED] Use --preset instead')
+  .action(async (projectName, options) => {
+    // Parse projects option if provided
+    if (options.projects) {
+      options.projects = options.projects
+        .split(',')
+        .map((p: string) => p.trim());
+    }
+    await createProject(projectName, options);
+  });
+
+// Add command for adding projects later
+program
+  .command('add <project>')
+  .description(
+    'Add a project to an existing SumitApp setup (website, mobile, backend)',
   )
   .option('-v, --verbose', 'Enable verbose logging')
-  // .option('--no-git', 'Skip git repository initialization')
-  .option('--skip-install', 'Skip dependency installation')
   .action(async (projectName, options) => {
-    await createProject(projectName, options);
+    await addProject(projectName, options);
   });
 
 // Config command
@@ -636,11 +787,9 @@ program
         return;
       }
 
-      // Validate configuration keys
       const validKeys = [
-        'defaultTemplate',
+        'defaultPreset',
         'packageManager',
-        // 'git',
         'verbose',
         'skipUpdateCheck',
       ];
@@ -650,7 +799,6 @@ program
         return;
       }
 
-      // Parse boolean values
       let parsedValue: any = value;
       if (value === 'true' || value === 'false') {
         parsedValue = value === 'true';
@@ -658,16 +806,32 @@ program
 
       await updateConfig(key, parsedValue);
       logger.success(
-        `Configuration updated: ${chalk.cyan(key)} = ${chalk.green(String(parsedValue))}`
+        `Configuration updated: ${chalk.cyan(key)} = ${chalk.green(String(parsedValue))}`,
       );
       logger.info(`Config file: ${chalk.gray(getConfigPath())}`);
     }
   });
 
-// Templates command
+// Presets command
+program
+  .command('presets')
+  .description('List available presets')
+  .action(() => {
+    listPresets();
+  });
+
+// Projects command
+program
+  .command('projects')
+  .description('List available projects')
+  .action(() => {
+    listProjects();
+  });
+
+// Templates command (legacy, for backward compatibility)
 program
   .command('templates')
-  .description('List available templates')
+  .description('[DEPRECATED] List available templates (use "presets" instead)')
   .action(() => {
     listTemplates();
   });
@@ -679,7 +843,7 @@ program
   .action(async () => {
     const logger = new Logger();
     const packageJson = await fs.readJson(
-      path.join(__dirname, '..', 'package.json')
+      path.join(__dirname, '..', 'package.json'),
     );
 
     logger.banner();
@@ -690,7 +854,7 @@ program
         `Platform: ${process.platform}\n` +
         `Architecture: ${process.arch}\n` +
         `Config: ${getConfigPath()}`,
-      '🔍 Environment Info'
+      '🔍 Environment Info',
     );
   });
 

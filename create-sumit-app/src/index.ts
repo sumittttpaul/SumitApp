@@ -353,11 +353,19 @@ node-linker=hoisted
 shamefully-hoist=true
 `;
       await fs.writeFile(path.join(projectPath, '.npmrc'), npmrcContent);
-      logger.verbose('Created .npmrc with hoisted node_modules');
+      
+      // pnpm requires pnpm-workspace.yaml instead of workspaces in package.json
+      const pnpmWorkspaceContent = `# pnpm workspace configuration
+packages:
+  - 'projects/*'
+  - 'packages/*'
+`;
+      await fs.writeFile(path.join(projectPath, 'pnpm-workspace.yaml'), pnpmWorkspaceContent);
+      logger.verbose('Created .npmrc and pnpm-workspace.yaml');
       break;
 
     case 'bun':
-      // Bun: Already uses node_modules by default, but add config for consistency
+      // Bun: Add config for better compatibility on Windows
       const bunfigContent = `# Bun configuration
 [install]
 # Use standard node_modules structure

@@ -120,6 +120,18 @@ async function selectPackageManager(
       name: 'bun',
       description: '⚡ Ultra-fast JavaScript runtime and package manager',
     },
+    {
+      name: 'pnpm',
+      description: '📦 Fast, disk space efficient package manager',
+    },
+    {
+      name: 'yarn',
+      description: '🐈 Fast, reliable, and secure dependency management',
+    },
+    {
+      name: 'npm',
+      description: '📦 The default Node.js package manager',
+    },
   ];
 
   if (packageManagerName) {
@@ -258,8 +270,25 @@ async function selectProjects(logger: Logger): Promise<string[]> {
 function generatePackageJson(
   projectName: string,
   selectedProjects: string[],
+  packageManager: string,
 ): object {
   const hasMobile = selectedProjects.includes('mobile');
+
+  // Package manager versions
+  const packageManagerVersions: Record<string, string> = {
+    bun: 'bun@1.2.22',
+    pnpm: 'pnpm@9.15.0',
+    yarn: 'yarn@4.6.0',
+    npm: 'npm@10.9.2',
+  };
+
+  // Clean commands per package manager
+  const cleanCommands: Record<string, string> = {
+    bun: 'turbo run clean && node scripts/clean.js && bun pm cache rm',
+    pnpm: 'turbo run clean && node scripts/clean.js && pnpm store prune',
+    yarn: 'turbo run clean && node scripts/clean.js && yarn cache clean',
+    npm: 'turbo run clean && node scripts/clean.js && npm cache clean --force',
+  };
 
   const packageJson: any = {
     name: projectName,
@@ -272,7 +301,7 @@ function generatePackageJson(
       lint: 'turbo run lint',
       format: 'prettier --write .',
       'check-types': 'turbo run check-types',
-      clean: 'turbo run clean && node scripts/clean.js && bun pm cache rm',
+      clean: cleanCommands[packageManager] || cleanCommands.bun,
     },
     devDependencies: {
       '@packages/eslint-config': 'workspace:^',
@@ -288,7 +317,8 @@ function generatePackageJson(
       node: '>=22',
     },
     workspaces: ['projects/*', 'packages/*'],
-    packageManager: 'bun@1.2.22',
+    packageManager:
+      packageManagerVersions[packageManager] || packageManagerVersions.bun,
   };
 
   // Add expo-dev-menu resolution only if mobile project is selected
@@ -524,12 +554,21 @@ async function createProject(
     }
   }
 
-  // Generate package.json based on selected projects
+  // Detect/Select package manager (moved before package.json generation)
+  const packageManager = await selectPackageManager(
+    config,
+    logger,
+    options.packageManager,
+  );
+  const pmInfo = getPackageManagerInfo(packageManager as any);
+
+  // Generate package.json based on selected projects and package manager
   const actualProjectName =
     targetDir === '.' ? path.basename(resolvedProjectPath) : targetDir;
   const packageJsonContent = generatePackageJson(
     actualProjectName,
     selectedProjects,
+    packageManager,
   );
   await fs.writeJson(
     path.join(resolvedProjectPath, 'package.json'),
@@ -540,14 +579,6 @@ async function createProject(
 
   // Clean up git directory
   await cleanupGitDirectory(resolvedProjectPath, logger);
-
-  // Detect/Select package manager
-  const packageManager = await selectPackageManager(
-    config,
-    logger,
-    options.packageManager,
-  );
-  const pmInfo = getPackageManagerInfo(packageManager as any);
 
   logger.newLine();
   logger.step(4, 5, `Using package manager: ${chalk.cyan(packageManager)}`);

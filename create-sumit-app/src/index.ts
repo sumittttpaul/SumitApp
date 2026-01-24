@@ -331,6 +331,51 @@ function generatePackageJson(
   return packageJson;
 }
 
+async function generatePackageManagerConfig(
+  projectPath: string,
+  packageManager: string,
+  logger: Logger,
+): Promise<void> {
+  switch (packageManager) {
+    case 'yarn':
+      // Yarn: Use node-modules linker instead of PnP
+      const yarnrcContent = `# Yarn configuration - using node-modules for compatibility
+nodeLinker: node-modules
+`;
+      await fs.writeFile(path.join(projectPath, '.yarnrc.yml'), yarnrcContent);
+      logger.verbose('Created .yarnrc.yml with node-modules linker');
+      break;
+
+    case 'pnpm':
+      // pnpm: Use hoisted node_modules for compatibility
+      const npmrcContent = `# pnpm configuration - hoisted node_modules for compatibility
+node-linker=hoisted
+shamefully-hoist=true
+`;
+      await fs.writeFile(path.join(projectPath, '.npmrc'), npmrcContent);
+      logger.verbose('Created .npmrc with hoisted node_modules');
+      break;
+
+    case 'bun':
+      // Bun: Already uses node_modules by default, but add config for consistency
+      const bunfigContent = `# Bun configuration
+[install]
+# Use standard node_modules structure
+`;
+      await fs.writeFile(path.join(projectPath, 'bunfig.toml'), bunfigContent);
+      logger.verbose('Created bunfig.toml');
+      break;
+
+    case 'npm':
+      // npm: Uses node_modules by default, no special config needed
+      logger.verbose('npm uses node_modules by default, no config needed');
+      break;
+
+    default:
+      break;
+  }
+}
+
 async function createProject(
   projectName?: string,
   options: CreateProjectOptions = {},
@@ -576,6 +621,13 @@ async function createProject(
     { spaces: 2 },
   );
   logger.verbose('Generated package.json with correct configuration');
+
+  // Generate package manager config files to ensure node_modules in root
+  await generatePackageManagerConfig(
+    resolvedProjectPath,
+    packageManager,
+    logger,
+  );
 
   // Clean up git directory
   await cleanupGitDirectory(resolvedProjectPath, logger);

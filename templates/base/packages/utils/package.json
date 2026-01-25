@@ -15,14 +15,14 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "react": "19.1.0",
-    "tailwind-merge": "^3.3.1"
+    "react": "19.2.3",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@packages/eslint-config": "workspace:^",
     "@packages/types": "workspace:^",
     "@packages/typescript-config": "workspace:^",
-    "@types/react": "19.1.10",
-    "eslint": "^9.38.0"
+    "@types/react": "19.2.9",
+    "eslint": "^9.39.2"
   }
 }

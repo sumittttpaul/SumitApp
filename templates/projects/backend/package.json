@@ -15,18 +15,18 @@
     "@packages/hooks": "workspace:^",
     "@packages/utils": "workspace:^",
     "@packages/validations": "workspace:^",
-    "@vercel/node": "^5.5.0",
-    "axios": "^1.12.2",
-    "express": "^5.1.0",
-    "express-rate-limit": "^8.1.0",
-    "vercel": "^48.6.0"
+    "@vercel/node": "^5.5.27",
+    "axios": "^1.13.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "vercel": "^50.5.0"
   },
   "devDependencies": {
     "@packages/eslint-config": "workspace:^",
     "@packages/types": "workspace:^",
     "@packages/typescript-config": "workspace:^",
-    "@types/express": "^5.0.4",
-    "eslint": "^9.38.0",
-    "tsx": "^4.20.6"
+    "@types/express": "^5.0.6",
+    "eslint": "^9.39.2",
+    "tsx": "^4.21.0"
   }
 }

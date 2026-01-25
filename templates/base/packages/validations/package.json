@@ -16,7 +16,7 @@
   "dependencies": {
     "@packages/hooks": "workspace:^",
     "@packages/utils": "workspace:^",
-    "zod": "^4.1.7",
+    "zod": "^4.3.6",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
@@ -24,6 +24,6 @@
     "@packages/types": "workspace:^",
     "@packages/typescript-config": "workspace:^",
     "@types/zxcvbn": "^4.4.5",
-    "eslint": "^9.38.0"
+    "eslint": "^9.39.2"
   }
 }

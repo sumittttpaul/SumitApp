@@ -26,9 +26,9 @@ bun.lock
 # =====================================
 
 # Build directories
-dist/
-build/
-out/
+/dist/
+/build/
+/out/
 .next/
 .expo/
 .turbo/
@@ -36,9 +36,9 @@ out/
 .netlify/
 
 # Static exports
-storybook-static/
-docs/build/
-coverage/
+/storybook-static/
+/docs/build/
+/coverage/
 
 # Minified files
 *.min.js
@@ -84,8 +84,8 @@ expo-env.d.ts
 CHANGELOG.md
 
 # Auto-generated documentation
-docs/api/
-docs/reference/
+/docs/api/
+/docs/reference/
 
 # =====================================
 # Configuration Files (Selective)
@@ -118,8 +118,8 @@ docs/reference/
 # =====================================
 # Mobile/Native Files
 # =====================================
-ios/
-android/
+/ios/
+/android/
 *.xcodeproj/
 *.xcworkspace/
 
@@ -131,15 +131,15 @@ metro.config.js
 # =====================================
 # Third-party & Vendor Files
 # =====================================
-vendor/
-lib/
-libs/
-public/lib/
-public/libs/
+/vendor/
+/lib/
+/libs/
+/public/lib/
+/public/libs/
 
 # CDN files
-public/cdn/
-static/cdn/
+/public/cdn/
+/static/cdn/
 
 # =====================================
 # Documentation & Examples
@@ -187,8 +187,8 @@ static/cdn/
 # Logs & Debug Files
 # =====================================
 *.log
-logs/
 .logs/
+/logs/
 
 # =====================================
 # Platform Specific

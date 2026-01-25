@@ -1,46 +1,18 @@
-import { PackageManager, PackageManagerInfo } from '../types/index.js';
-import updateCheck from 'update-check';
-import { Logger } from './logger.js';
-import { execa } from 'execa';
-import fs from 'fs-extra';
-import path from 'path';
+import { Preset, Project, PackageManager, PackageManagerInfo } from "../types/index.js";
+import { PROJECTS, PRESETS, PACKAGE_MANAGERS } from "./templates.js";
+import updateCheck from "update-check";
+import { Logger } from "./logger.js";
+import { execa } from "execa";
+import fs from "fs-extra";
+import path from "path";
 
-const PACKAGE_MANAGERS: PackageManagerInfo[] = [
-  {
-    name: 'bun',
-    lockFile: 'bun.lock',
-    command: 'bun',
-    installArgs: ['install'],
-  },
-  {
-    name: 'pnpm',
-    lockFile: 'pnpm-lock.yaml',
-    command: 'pnpm',
-    installArgs: ['install'],
-  },
-  {
-    name: 'yarn',
-    lockFile: 'yarn.lock',
-    command: 'yarn',
-    installArgs: ['install'],
-  },
-  {
-    name: 'npm',
-    lockFile: 'package-lock.json',
-    command: 'npm',
-    installArgs: ['install'],
-  },
-];
-
-export function getPackageManagerInfo(
-  name: PackageManager
-): PackageManagerInfo {
+export function getPackageManagerInfo(name: PackageManager): PackageManagerInfo {
   return PACKAGE_MANAGERS.find((pm) => pm.name === name) || PACKAGE_MANAGERS[3]; // Default to npm
 }
 
 export async function checkForUpdates(logger: Logger): Promise<void> {
   try {
-    const packagePath = path.resolve(process.cwd(), 'package.json');
+    const packagePath = path.resolve(process.cwd(), "package.json");
     if (!(await fs.pathExists(packagePath))) return;
 
     const packageJson = await fs.readJson(packagePath);
@@ -51,8 +23,8 @@ export async function checkForUpdates(logger: Logger): Promise<void> {
       logger.box(
         `A new version is available: ${logger.gradient(update.latest)}\n` +
           `Current version: ${packageJson.version}\n\n` +
-          `Run: ${logger.gradient('npm install -g create-sumit-app@latest')} to update`,
-        '🚀 Update Available'
+          `Run: ${logger.gradient("npm install -g create-sumit-app@latest")} to update`,
+        "🚀 Update Available",
       );
       logger.newLine();
     }
@@ -70,31 +42,28 @@ export async function isDirectoryEmpty(dirPath: string): Promise<boolean> {
   }
 }
 
-export async function validateProjectName(
-  name: string
-): Promise<{ valid: boolean; message?: string }> {
+export async function validateProjectName(name: string): Promise<{ valid: boolean; message?: string }> {
   // Check for valid npm package name
   const validNameRegex = /^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$/i;
 
   if (!validNameRegex.test(name)) {
     return {
       valid: false,
-      message:
-        'Project name must be a valid package name (lowercase, no spaces, only letters, numbers, dashes, underscores, and dots)',
+      message: "Project name must be a valid package name (lowercase, no spaces, only letters, numbers, dashes, underscores, and dots)",
     };
   }
 
   if (name.length > 214) {
     return {
       valid: false,
-      message: 'Project name must be less than 214 characters',
+      message: "Project name must be less than 214 characters",
     };
   }
 
-  if (name.startsWith('.') || name.startsWith('-') || name.startsWith('_')) {
+  if (name.startsWith(".") || name.startsWith("-") || name.startsWith("_")) {
     return {
       valid: false,
-      message: 'Project name cannot start with a dot, dash, or underscore',
+      message: "Project name cannot start with a dot, dash, or underscore",
     };
   }
 
@@ -109,22 +78,94 @@ export function formatDuration(ms: number): string {
   return `${minutes}m ${seconds % 60}s`;
 }
 
-export async function initializeGitRepository(
-  projectPath: string,
-  logger: Logger
-): Promise<boolean> {
+export async function initializeGitRepository(projectPath: string, logger: Logger): Promise<boolean> {
   try {
-    await execa('git', ['init'], { cwd: projectPath });
-    await execa('git', ['add', '.'], { cwd: projectPath });
-    await execa(
-      'git',
-      ['commit', '-m', 'Initial commit from create-sumit-app'],
-      { cwd: projectPath }
-    );
-    logger.verbose('Initialized git repository with initial commit');
+    await execa("git", ["init"], { cwd: projectPath });
+    await execa("git", ["add", "."], { cwd: projectPath });
+    await execa("git", ["commit", "-m", "Initial commit from create-sumit-app"], { cwd: projectPath });
+    logger.verbose("Initialized git repository with initial commit");
     return true;
   } catch (error) {
     logger.debug(`Git initialization failed: ${error}`);
     return false;
   }
+}
+
+export async function enableWindowsLongPaths(logger: Logger): Promise<boolean> {
+  if (process.platform !== "win32") return true;
+
+  try {
+    // Check if LongPathsEnabled is already set
+    try {
+      const { stdout } = await execa("reg", ["query", "HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem", "/v", "LongPathsEnabled"]);
+
+      if (stdout.includes("0x1")) {
+        logger.verbose("Windows Long Paths already enabled");
+        return true;
+      }
+    } catch {
+      // Key doesn't exist or verify failed, try to add it
+    }
+
+    logger.info("Enabling Windows Long Paths support (requires admin)...");
+
+    // Try to enable it
+    await execa("reg", ["add", "HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem", "/v", "LongPathsEnabled", "/t", "REG_DWORD", "/d", "1", "/f"]);
+
+    logger.success("Windows Long Paths enabled successfully");
+    return true;
+  } catch (error: any) {
+    logger.warn("Could not auto-enable Windows Long Paths (requires Admin).");
+    logger.info("If you encounter linking errors, try running as Administrator.");
+    return false;
+  }
+}
+
+// --- Moved Template Functions ---
+
+export function getPreset(name: string): Preset | undefined {
+  return PRESETS.find((preset) => preset.name === name);
+}
+
+export function getProject(name: string): Project | undefined {
+  return PROJECTS[name];
+}
+
+export function listPresets(): void {
+  console.log("\n📋 Available presets:\n");
+
+  PRESETS.forEach((preset, index) => {
+    console.log(`${index + 1}. ${preset.name}`);
+    console.log(`   ${preset.description}`);
+    if (preset.projects.length > 0) {
+      console.log(`   Projects: ${preset.projects.join(", ")}`);
+    }
+    console.log();
+  });
+}
+
+export function listProjects(): void {
+  console.log("\n📦 Available projects:\n");
+
+  Object.values(PROJECTS).forEach((project, index) => {
+    console.log(`${index + 1}. ${project.name}`);
+    console.log(`   ${project.description}`);
+    console.log();
+  });
+}
+
+// Kept for backward compatibility
+export function getTemplate(name: string): Preset | undefined {
+  const templateToPreset: Record<string, string> = {
+    default: "default",
+    "mobile and backend": "mobile-and-backend",
+    "website and backend": "website-and-backend",
+  };
+
+  const presetName = templateToPreset[name] || name;
+  return getPreset(presetName);
+}
+
+export function listTemplates(): void {
+  listPresets();
 }

@@ -12,7 +12,7 @@ export interface Preset {
 
 export interface Config {
   defaultPreset?: string;
-  packageManager?: 'npm' | 'yarn' | 'pnpm' | 'bun';
+  packageManager?: "npm" | "yarn" | "pnpm" | "bun";
   git?: boolean;
   verbose?: boolean;
   skipUpdateCheck?: boolean;
@@ -31,7 +31,7 @@ export interface CreateProjectOptions {
   template?: string;
 }
 
-export type PackageManager = 'npm' | 'yarn' | 'pnpm' | 'bun';
+export type PackageManager = "npm" | "yarn" | "pnpm" | "bun";
 
 export interface PackageManagerInfo {
   name: PackageManager;

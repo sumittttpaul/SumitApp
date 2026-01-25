@@ -1,10 +1,10 @@
-import { Config } from '../types/index.js';
-import { Logger } from './logger.js';
-import fs from 'fs-extra';
-import path from 'path';
+import { Config } from "../types/index.js";
+import { Logger } from "./logger.js";
+import fs from "fs-extra";
+import path from "path";
 
-const CONFIG_DIR_NAME = 'sumitapp';
-const CONFIG_FILE_NAME = 'config.json';
+const CONFIG_DIR_NAME = "sumitapp";
+const CONFIG_FILE_NAME = "config.json";
 const CONFIG_PATH = path.join(CONFIG_DIR_NAME, CONFIG_FILE_NAME);
 
 export async function loadConfig(): Promise<Config> {
@@ -53,9 +53,9 @@ export async function showConfig(logger: Logger): Promise<void> {
   const config = await loadConfig();
 
   if (Object.keys(config).length === 0) {
-    logger.info('No configuration found. Using defaults.');
+    logger.info("No configuration found. Using defaults.");
     return;
   }
 
-  logger.box(JSON.stringify(config, null, 2), '🔧 Current Configuration');
+  logger.box(JSON.stringify(config, null, 2), "🔧 Current Configuration");
 }

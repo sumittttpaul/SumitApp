@@ -60,7 +60,7 @@ bun dev
 
 - **Next.js 16** web application with App Router
 - **Expo 54** mobile app for iOS and Android
-- **Node.js 22** serverless APIs with Vercel deployment
+- **Node.js 25** serverless APIs with Vercel deployment
 
 ### 🎨 **Modern UI/UX**
 
@@ -276,7 +276,7 @@ Once configured, Vercel will automatically:
 
 ### **Backend**
 
-- **Node.js 22** - JavaScript runtime
+- **Node.js 25** - JavaScript runtime
 - **Express 5** - Web framework
 - **Vercel** - Serverless deployment platform
 - **TypeScript 5** - Type-safe JavaScript

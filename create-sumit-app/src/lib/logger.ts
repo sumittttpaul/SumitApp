@@ -22,7 +22,7 @@ export class Logger {
     // console.log(gradient.pastel.multiline(banner));
     console.log(chalk.hex("#505050")(banner));
     console.log(chalk.hex("#FFFFFF")(description));
-    // console.log();
+    console.log();
   }
 
   log(message: string) {

@@ -22,6 +22,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     "expo-font",
     "expo-router",
+    "@react-native-community/datetimepicker",
     ["expo-screen-orientation", { initialOrientation: "DEFAULT" }],
     ["expo-splash-screen", { image: "./assets/splash-icon.png", backgroundColor: "#0a0a0a", imageWidth: 200 }],
     "./plugins/drop-down-menu.ts",

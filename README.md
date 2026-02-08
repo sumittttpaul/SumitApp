@@ -315,6 +315,6 @@ Once configured, Vercel will automatically:
 ---
 
 <div align="center">
-  <p>Made with ❤️ by <a href="https://sumitttpaul.vercel.app/">Sumit Paul</a></p>
+  <p>Made with ❤️ by <a href="https://www.linkedin.com/in/sumitttpaul/">Sumit Paul</a></p>
   <p>⭐ Star this repo if you find it helpful!</p>
 </div>
